@@ -28,7 +28,7 @@
             touch-action: none;
         }
         
-        #gameContainer {
+        .container {
             position: fixed;
             top: 0;
             left: 0;
@@ -93,12 +93,12 @@
             transform: translateY(-2px);
         }
         
-        button:active {
-            transform: translateY(0);
-        }
-        
         .connect-btn {
             background: #1da1f2;
+        }
+        
+        .connected {
+            background: #4CAF50;
         }
         
         .game-over {
@@ -127,48 +127,6 @@
             font-size: 1.5rem;
             margin-bottom: 30px;
             text-align: center;
-        }
-        
-        .post-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.98);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-            padding: 20px;
-        }
-        
-        .post-content {
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            border: 2px solid #ff7e5f;
-        }
-        
-        .post-content h3 {
-            color: #ff7e5f;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        
-        .post-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 25px;
-        }
-        
-        .post-buttons button {
-            width: 100%;
         }
         
         .tap-to-start {
@@ -257,10 +215,6 @@
             text-align: center;
         }
         
-        .setup-content input::placeholder {
-            color: #a0aec0;
-        }
-
         .orange-celebration {
             position: fixed;
             top: 50%;
@@ -315,14 +269,14 @@
             <h3>🎮 Welcome to Dynasty Snake!</h3>
             <p>Enter your name to start playing</p>
             <input type="text" id="playerName" placeholder="Your name" maxlength="20">
-            <div class="post-buttons">
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
                 <button onclick="startGameWithName()">START PLAYING</button>
                 <button onclick="playAsGuest()" style="background: #666;">PLAY AS GUEST</button>
             </div>
         </div>
     </div>
     
-    <div id="gameContainer" style="display: none;">
+    <div class="container" id="gameContainer" style="display: none;">
         <div class="header">
             <h1>DYNASTY SNAKE</h1>
             <div class="score-display">
@@ -353,30 +307,12 @@
         </div>
         <button id="restartButton">PLAY AGAIN</button>
     </div>
-    
-    <div class="post-modal" id="postModal">
-        <div class="post-content">
-            <h3>🎉 SCORE VERIFIED!</h3>
-            <p>Your score has been automatically saved.</p>
-            <p><strong>Player: <span id="postPlayer">Guest</span></strong></p>
-            <p><strong>Score: <span id="postScore">0</span></strong></p>
-            <p><strong>Oranges Earned: <span id="postOranges">0</span></strong></p>
-            <div class="post-buttons">
-                <button onclick="postToX()" style="background: #ff7e5f;">
-                    SHARE ON X
-                </button>
-                <button onclick="closePostModal()" style="background: #666;">
-                    CLOSE
-                </button>
-            </div>
-        </div>
-    </div>
 
     <script>
-        // Configuration - UPDATE WITH YOUR GOOGLE APPS SCRIPT URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+        // Configuration - YOUR ACTUAL URLs
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/1GdL95nRZ44FgY73lJtyEkZmnsqmkk0_JfdOuwQbiJ5kdNlWeLHU5b-wj/exec';
         
-        // Game variables
+        // Game elements
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.getElementById('score');
@@ -386,10 +322,6 @@
         const finalScoreValue = document.getElementById('finalScoreValue');
         const finalOrangesValue = document.getElementById('finalOrangesValue');
         const restartButton = document.getElementById('restartButton');
-        const postModal = document.getElementById('postModal');
-        const postScore = document.getElementById('postScore');
-        const postOranges = document.getElementById('postOranges');
-        const postPlayer = document.getElementById('postPlayer');
         const notification = document.getElementById('notification');
         const userSetup = document.getElementById('userSetup');
         const gameContainer = document.getElementById('gameContainer');
@@ -404,7 +336,20 @@
             sessionStart: null
         };
         
-        // Responsive canvas setup
+        // Game state
+        let gridSize = 20;
+        let tileCountX, tileCountY;
+        let snake = [];
+        let food = {};
+        let dx = 0;
+        let dy = 0;
+        let score = 0;
+        let orangesEarned = 0;
+        let gameRunning = false;
+        let gamePaused = true;
+        let isXConnected = false;
+        
+        // Initialize canvas size
         function resizeCanvas() {
             const header = document.querySelector('.header');
             const controls = document.querySelector('.controls');
@@ -423,20 +368,7 @@
             }
         }
         
-        let gridSize = 20;
-        let tileCountX, tileCountY;
-        
-        let snake = [];
-        let food = {};
-        let dx = 0;
-        let dy = 0;
-        let score = 0;
-        let orangesEarned = 0;
-        let gameRunning = false;
-        let gamePaused = true; // Start paused
-        let isXConnected = false;
-        
-        // Player setup functions
+        // Player setup
         function startGameWithName() {
             const name = playerNameInput.value.trim();
             if (name) {
@@ -444,8 +376,6 @@
                 playerData.playerId = generatePlayerId();
                 playerData.isGuest = false;
                 playerData.sessionStart = new Date();
-                
-                saveNewPlayer();
                 startGame();
             } else {
                 showNotification('Please enter your name', true);
@@ -457,8 +387,6 @@
             playerData.playerId = generatePlayerId();
             playerData.isGuest = true;
             playerData.sessionStart = new Date();
-            
-            saveNewPlayer();
             startGame();
         }
         
@@ -472,30 +400,18 @@
             resizeCanvas();
             initGame();
             showNotification(`Welcome ${playerData.name}! Tap screen to start`);
-        }
-        
-        // Save new player to spreadsheet automatically
-        async function saveNewPlayer() {
-            const playerInfo = {
+            
+            // Save player to database
+            saveToDatabase({
                 action: 'new_player',
                 playerId: playerData.playerId,
                 playerName: playerData.name,
                 isGuest: playerData.isGuest,
-                timestamp: new Date().toISOString(),
-                gameVersion: '1.0'
-            };
-            
-            try {
-                const success = await saveToSpreadsheet(playerInfo);
-                if (success) {
-                    console.log('New player saved:', playerData.name);
-                }
-            } catch (error) {
-                console.log('Player saved locally:', playerData);
-            }
+                timestamp: new Date().toISOString()
+            });
         }
         
-        // Initialize game
+        // Game initialization
         function initGame() {
             const startX = Math.floor(tileCountX / 2);
             const startY = Math.floor(tileCountY / 2);
@@ -508,12 +424,11 @@
             orangesEarned = 0;
             updateDisplays();
             gameOverScreen.style.display = 'none';
-            postModal.style.display = 'none';
             tapToStart.style.display = 'block';
             gamePaused = true;
+            drawGame();
         }
         
-        // Generate food at random position
         function generateFood() {
             food = {
                 x: Math.floor(Math.random() * tileCountX),
@@ -528,31 +443,33 @@
             }
         }
         
-        // Update all displays
         function updateDisplays() {
             scoreDisplay.textContent = score;
             orangesDisplay.textContent = orangesEarned;
         }
         
-        // Draw game elements
+        // Drawing functions
         function drawGame() {
+            // Clear canvas
             ctx.fillStyle = '#1a2a3a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // Draw snake
             ctx.fillStyle = '#ff9800';
             for (let segment of snake) {
                 ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
             }
             
+            // Draw snake head
             if (snake.length > 0) {
                 ctx.fillStyle = '#e65100';
                 ctx.fillRect(snake[0].x * gridSize, snake[0].y * gridSize, gridSize - 1, gridSize - 1);
             }
             
+            // Draw food
             drawOrange(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2 - 2);
         }
         
-        // Draw an orange
         function drawOrange(x, y, radius) {
             ctx.beginPath();
             ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -573,19 +490,19 @@
             ctx.fill();
         }
         
-        // Move snake - WRAPS AROUND SCREEN
+        // Game logic
         function moveSnake() {
             if (!gameRunning || gamePaused) return;
             
             const head = {x: snake[0].x + dx, y: snake[0].y + dy};
             
-            // Wrap around screen edges
+            // Wrap around screen
             if (head.x < 0) head.x = tileCountX - 1;
             if (head.x >= tileCountX) head.x = 0;
             if (head.y < 0) head.y = tileCountY - 1;
             if (head.y >= tileCountY) head.y = 0;
             
-            // Check for self collision
+            // Check collision with self
             for (let segment of snake) {
                 if (head.x === segment.x && head.y === segment.y) {
                     gameOver();
@@ -595,19 +512,15 @@
             
             snake.unshift(head);
             
+            // Check food collision
             if (head.x === food.x && head.y === food.y) {
                 score += 1;
                 
-                // AUTOMATIC ORANGE REWARDS - FIXED
+                // Award oranges every 10 points
                 if (score % 10 === 0) {
-                    orangesEarned += 2; // Always give 2 oranges for every 10 points
+                    orangesEarned += 2;
                     showNotification(`🎉 +2 Oranges! Total: ${orangesEarned}`);
                     createOrangeCelebration();
-                    
-                    // If X connected, give bonus oranges immediately
-                    if (isXConnected) {
-                        showNotification(`🔥 X Bonus! Total oranges: ${orangesEarned}`);
-                    }
                 }
                 
                 updateDisplays();
@@ -619,7 +532,6 @@
             drawGame();
         }
         
-        // Create orange celebration animation
         function createOrangeCelebration() {
             const celebration = document.createElement('div');
             celebration.className = 'orange-celebration';
@@ -631,7 +543,6 @@
             }, 1000);
         }
         
-        // Game over function
         function gameOver() {
             gameRunning = false;
             gamePaused = true;
@@ -639,13 +550,8 @@
             finalOrangesValue.textContent = orangesEarned;
             gameOverScreen.style.display = 'flex';
             
-            saveGameScore();
-            setTimeout(showPostModal, 1000);
-        }
-        
-        // Save game score to spreadsheet
-        async function saveGameScore() {
-            const gameData = {
+            // Save score to database
+            saveToDatabase({
                 action: 'game_score',
                 playerId: playerData.playerId,
                 playerName: playerData.name,
@@ -654,61 +560,44 @@
                 isGuest: playerData.isGuest,
                 xUsername: isXConnected ? playerData.name : 'none',
                 status: 'completed',
-                gameVersion: '1.0',
                 sessionDuration: Math.floor((new Date() - playerData.sessionStart) / 1000)
-            };
-            
-            try {
-                const success = await saveToSpreadsheet(gameData);
-                if (success) {
-                    console.log('Game score saved for:', playerData.name);
-                }
-            } catch (error) {
-                console.log('Score saved locally:', gameData);
-            }
+            });
         }
         
-        // Save data to Google Sheets
-        async function saveToSpreadsheet(data) {
+        // Database functions
+        async function saveToDatabase(data) {
             try {
+                // Add timestamp and version
+                const postData = {
+                    ...data,
+                    timestamp: new Date().toISOString(),
+                    gameVersion: '2.0'
+                };
+                
+                // Use Google Apps Script
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(postData)
                 });
                 
+                console.log('Data saved to database:', postData);
                 return true;
                 
             } catch (error) {
-                console.log('Failed to save to spreadsheet:', error);
+                console.log('Database save failed, using localStorage:', error);
+                
+                // Save to localStorage as backup
+                const backupKey = `dynasty_snake_${Date.now()}`;
+                localStorage.setItem(backupKey, JSON.stringify(data));
+                
                 return false;
             }
         }
         
-        // Show post modal
-        function showPostModal() {
-            postScore.textContent = score;
-            postOranges.textContent = orangesEarned;
-            postPlayer.textContent = playerData.name;
-            postModal.style.display = 'flex';
-        }
-        
-        // Close post modal
-        function closePostModal() {
-            postModal.style.display = 'none';
-        }
-        
-        // Post to X
-        function postToX() {
-            const tweetText = `${playerData.name} scored ${score} points in Dynasty Snake! 🐍🍊\nEarned ${orangesEarned} oranges!\n@daveayu10 #DynastySnake`;
-            const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-            window.open(tweetUrl, '_blank');
-        }
-        
-        // Show notification
+        // UI functions
         function showNotification(message, isError = false) {
             notification.textContent = message;
             notification.style.background = isError ? '#f44336' : '#4CAF50';
@@ -719,18 +608,24 @@
             }, 3000);
         }
         
-        // Connect X account
         function connectXAccount() {
             const username = prompt("Enter your X username (without @):");
             if (username && username.trim()) {
                 isXConnected = true;
                 connectButton.innerHTML = '<i class="fab fa-twitter"></i> CONNECTED';
-                connectButton.style.background = '#4CAF50';
-                showNotification(`X account connected! You'll get bonus rewards`);
+                connectButton.classList.add('connected');
+                showNotification(`X account connected!`);
+                
+                // Save X connection to database
+                saveToDatabase({
+                    action: 'x_connect',
+                    playerId: playerData.playerId,
+                    playerName: playerData.name,
+                    xUsername: username
+                });
             }
         }
         
-        // Toggle pause/start game
         function toggleGame() {
             if (!gameRunning) {
                 gameRunning = true;
@@ -743,7 +638,7 @@
             }
         }
         
-        // Touch/swipe controls
+        // Touch controls
         let touchStartX = 0;
         let touchStartY = 0;
         
@@ -751,7 +646,6 @@
             touchStartX = event.touches[0].clientX;
             touchStartY = event.touches[0].clientY;
             
-            // Start/pause game on tap
             if (!gameRunning || gamePaused) {
                 toggleGame();
             }
@@ -837,10 +731,8 @@
             tapToStart.textContent = 'TAP TO START';
             gameOverScreen.style.display = 'none';
             initGame();
-            drawGame();
         });
         
-        // Tap to start on canvas
         canvas.addEventListener('click', toggleGame);
         
         playerNameInput.addEventListener('keypress', (e) => {
@@ -856,6 +748,7 @@
         window.addEventListener('load', resizeCanvas);
         window.addEventListener('resize', resizeCanvas);
         
+        // Game loop
         const gameSpeed = 120;
         setInterval(moveSnake, gameSpeed);
     </script>
