@@ -766,7 +766,7 @@
             }, 500);
         }
         
-        // Native Share API Function with clean image and text with tags
+        // Native Share API Function with proper tagging format
         async function nativeShare() {
             if (!shareImageData) {
                 showNotification('Please wait for image to generate', true);
@@ -783,10 +783,14 @@
                     type: 'image/png' 
                 });
                 
-                // Text with tags and link (NOT in the image)
+                // Proper X tagging format - each @mention on separate lines
                 const shareText = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
 
-@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
+@daveayu10
+@sign  
+@claireMa12
+@ethsign
+@orangeDynasty
 
 Play now: https://dynasty-snake.vercel.app/`;
                 
@@ -815,14 +819,14 @@ Play now: https://dynasty-snake.vercel.app/`;
             }
         }
         
-        // Generate clean share image (only score and orange)
+        // Generate clean share image (only score and orange - no overlap)
         function generateShareImage() {
             const scoreCanvas = document.getElementById('scoreCanvas');
             const scoreCtx = scoreCanvas.getContext('2d');
             
             // Set canvas size - optimized for mobile sharing
             scoreCanvas.width = 800;
-            scoreCanvas.height = 400;
+            scoreCanvas.height = 500; // Increased height to prevent overlap
             
             // Draw background with orange gradient
             const gradient = scoreCtx.createLinearGradient(0, 0, scoreCanvas.width, scoreCanvas.height);
@@ -831,15 +835,17 @@ Play now: https://dynasty-snake.vercel.app/`;
             scoreCtx.fillStyle = gradient;
             scoreCtx.fillRect(0, 0, scoreCanvas.width, scoreCanvas.height);
             
-            // Draw large orange emoji in center
-            scoreCtx.font = 'bold 180px Arial';
+            // Draw large orange emoji in center (properly spaced)
+            scoreCtx.font = 'bold 160px Arial';
             scoreCtx.textAlign = 'center';
-            scoreCtx.fillText('🍊', scoreCanvas.width / 2, scoreCanvas.height / 2 + 60);
+            scoreCtx.textBaseline = 'middle';
+            scoreCtx.fillText('🍊', scoreCanvas.width / 2, scoreCanvas.height / 2 - 40);
             
-            // Draw score with snake emoji (clean and centered)
+            // Draw score below the orange (properly spaced)
             scoreCtx.fillStyle = 'white';
-            scoreCtx.font = 'bold 60px Arial';
-            scoreCtx.fillText(`Score: ${score}`, scoreCanvas.width / 2, scoreCanvas.height - 80);
+            scoreCtx.font = 'bold 50px Arial';
+            scoreCtx.textBaseline = 'alphabetic';
+            scoreCtx.fillText(`SCORE: ${score}`, scoreCanvas.width / 2, scoreCanvas.height - 100);
             
             // NO TAGS OR LINKS IN THE IMAGE - clean design
             
@@ -873,7 +879,11 @@ Play now: https://dynasty-snake.vercel.app/`;
         function copyShareText() {
             const text = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
 
-@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
+@daveayu10
+@sign  
+@claireMa12
+@ethsign
+@orangeDynasty
 
 Play now: https://dynasty-snake.vercel.app/`;
             
