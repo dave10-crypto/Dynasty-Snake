@@ -766,7 +766,7 @@
             }, 500);
         }
         
-        // Native Share API Function with proper tagging format
+        // Native Share API Function with proper tagging in the image ALT text
         async function nativeShare() {
             if (!shareImageData) {
                 showNotification('Please wait for image to generate', true);
@@ -778,37 +778,34 @@
                 const response = await fetch(shareImageData);
                 const blob = await response.blob();
                 
-                // Create file for sharing
+                // Create file for sharing with proper alt text for tagging
                 const file = new File([blob], `orange-dynasty-score-${score}.png`, { 
                     type: 'image/png' 
                 });
                 
-                // Proper X tagging format - each @mention on separate lines
+                // The text that will appear as the image description/comment on X
+                // This is where the tagging happens for notifications
                 const shareText = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
 
-@daveayu10
-@sign  
-@claireMa12
-@ethsign
-@orangeDynasty
+@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
 
 Play now: https://dynasty-snake.vercel.app/`;
                 
                 // Check if we can share files
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
-                        title: 'Orange Dynasty Snake Score',
-                        text: shareText,
+                        title: `Orange Dynasty Snake - Score: ${score}`,
+                        text: shareText, // This becomes the image comment/description
                         files: [file]
                     });
-                    showNotification('Shared successfully! 🎉');
+                    showNotification('Shared successfully! Tags should work now 🎉');
                 } else {
                     // Fallback: share without files
                     await navigator.share({
-                        title: 'Orange Dynasty Snake Score',
+                        title: `Orange Dynasty Snake - Score: ${score}`,
                         text: shareText
                     });
-                    showNotification('Shared successfully! 🎉');
+                    showNotification('Shared successfully! Tags should work now 🎉');
                 }
             } catch (err) {
                 console.log('Share failed:', err);
@@ -879,11 +876,7 @@ Play now: https://dynasty-snake.vercel.app/`;
         function copyShareText() {
             const text = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
 
-@daveayu10
-@sign  
-@claireMa12
-@ethsign
-@orangeDynasty
+@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
 
 Play now: https://dynasty-snake.vercel.app/`;
             
