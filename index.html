@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,8 +19,8 @@
         }
         
         body {
-            background: #0d1b2a;
-            color: #ffffff;
+            background: #ffffff;
+            color: #333333;
             overflow: hidden;
             position: fixed;
             width: 100%;
@@ -39,11 +39,11 @@
         }
         
         .header {
-            background: rgba(255, 126, 95, 0.9);
+            background: rgba(255, 126, 95, 0.95);
             padding: 15px;
             text-align: center;
             z-index: 10;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         h1 {
@@ -58,39 +58,48 @@
             gap: 30px;
             font-size: 1.2rem;
             font-weight: bold;
+            color: white;
         }
         
         #gameCanvas {
             flex: 1;
             width: 100%;
-            background: #1a2a3a;
+            background: #f8f9fa;
             display: block;
             cursor: pointer;
+            border: 2px solid #e9ecef;
         }
         
         .controls {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(255, 126, 95, 0.95);
             padding: 20px;
             display: flex;
             justify-content: center;
             gap: 15px;
             z-index: 10;
+            flex-wrap: wrap;
         }
         
         button {
             padding: 15px 25px;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            background: linear-gradient(45deg, #1da1f2, #0d8bd9);
             color: white;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         
         button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .share-btn {
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
         }
         
         .connect-btn {
@@ -107,7 +116,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             display: none;
             flex-direction: column;
             justify-content: center;
@@ -127,6 +136,28 @@
             font-size: 1.5rem;
             margin-bottom: 30px;
             text-align: center;
+            color: #333;
+        }
+        
+        .share-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #ff7e5f;
+        }
+        
+        .share-container h3 {
+            color: #ff7e5f;
+            margin-bottom: 15px;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         .tap-to-start {
@@ -134,7 +165,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 126, 95, 0.9);
+            background: rgba(255, 126, 95, 0.95);
             padding: 20px 40px;
             border-radius: 15px;
             font-size: 1.5rem;
@@ -142,6 +173,8 @@
             z-index: 50;
             text-align: center;
             animation: pulse 2s infinite;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 126, 95, 0.4);
         }
         
         @keyframes pulse {
@@ -155,11 +188,11 @@
             bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 126, 95, 0.9);
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 0.9rem;
-            color: #ccc;
+            color: white;
             text-align: center;
             z-index: 5;
         }
@@ -184,7 +217,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -194,13 +227,19 @@
         }
         
         .setup-content {
-            background: #1e293b;
+            background: #ffffff;
             padding: 30px;
             border-radius: 15px;
             text-align: center;
             max-width: 400px;
             width: 90%;
-            border: 2px solid #ff7e5f;
+            border: 3px solid #ff7e5f;
+            box-shadow: 0 8px 25px rgba(255, 126, 95, 0.2);
+        }
+        
+        .setup-content h3 {
+            color: #ff7e5f;
+            margin-bottom: 15px;
         }
         
         .setup-content input {
@@ -209,8 +248,8 @@
             margin: 15px 0;
             border: 2px solid #ff7e5f;
             border-radius: 8px;
-            background: #2d3748;
-            color: white;
+            background: #f8f9fa;
+            color: #333;
             font-size: 1rem;
             text-align: center;
         }
@@ -220,15 +259,22 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4rem;
+            font-size: 5rem;
             z-index: 1000;
             pointer-events: none;
             animation: celebrate 1s ease-out forwards;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
         }
         
         @keyframes celebrate {
             0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
             100% { transform: translate(-50%, -100px) scale(2); opacity: 0; }
+        }
+
+        .social-tags {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
         }
 
         @media (max-width: 768px) {
@@ -257,6 +303,11 @@
             .tap-to-start {
                 font-size: 1.2rem;
                 padding: 15px 30px;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -292,6 +343,9 @@
             <button id="connectButton" class="connect-btn">
                 <i class="fab fa-twitter"></i> CONNECT X
             </button>
+            <button id="shareButton" class="share-btn" style="display: none;">
+                <i class="fas fa-share-alt"></i> SHARE SCORE
+            </button>
         </div>
         
         <div class="swipe-indicator">
@@ -305,12 +359,31 @@
             Score: <span id="finalScoreValue">0</span><br>
             Oranges: <span id="finalOrangesValue">0</span>
         </div>
+        
+        <div class="share-container">
+            <h3>🎉 Share Your Achievement!</h3>
+            <div class="share-buttons">
+                <button onclick="shareOnX()" class="share-btn">
+                    <i class="fab fa-twitter"></i> Share on X
+                </button>
+                <button onclick="downloadScoreImage()" class="share-btn">
+                    <i class="fas fa-download"></i> Save Image
+                </button>
+            </div>
+            <div class="social-tags">
+                Tags: @daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
+            </div>
+        </div>
+        
         <button id="restartButton">PLAY AGAIN</button>
     </div>
 
+    <!-- Hidden canvas for image generation -->
+    <canvas id="scoreCanvas" style="display: none;"></canvas>
+
     <script>
         // ✅ REPLACE THIS WITH YOUR GOOGLE FORM URL
-        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdU22MN5bmf19M9Zxy4w0vwRxdrxreDiz7nfl3Q8EZkxSaUYQ/viewform?usp=publish-editor';
+        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdU22MN5bmf19M9Zxy4w0vwRxdrxreDiz7nfl3Q8EZkxSaUYQ/formResponse';
         
         // Game elements
         const canvas = document.getElementById('gameCanvas');
@@ -318,6 +391,7 @@
         const scoreDisplay = document.getElementById('score');
         const orangesDisplay = document.getElementById('oranges');
         const connectButton = document.getElementById('connectButton');
+        const shareButton = document.getElementById('shareButton');
         const gameOverScreen = document.getElementById('gameOver');
         const finalScoreValue = document.getElementById('finalScoreValue');
         const finalOrangesValue = document.getElementById('finalOrangesValue');
@@ -337,7 +411,7 @@
         };
         
         // Game state
-        let gridSize = 20;
+        let gridSize = 25; // Increased grid size for bigger oranges
         let tileCountX, tileCountY;
         let snake = [];
         let food = {};
@@ -359,7 +433,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight - headerHeight - controlsHeight;
             
-            gridSize = Math.max(15, Math.min(25, Math.floor(canvas.width / 25)));
+            gridSize = Math.max(20, Math.min(30, Math.floor(canvas.width / 20))); // Adjusted for bigger oranges
             tileCountX = Math.floor(canvas.width / gridSize);
             tileCountY = Math.floor(canvas.height / gridSize);
             
@@ -378,7 +452,6 @@
                 playerData.sessionStart = new Date();
                 startGame();
                 
-                // Save player to Google Form
                 saveToGoogleForm({
                     playerName: playerData.name,
                     score: 0,
@@ -400,7 +473,6 @@
             playerData.sessionStart = new Date();
             startGame();
             
-            // Save guest to Google Form
             saveToGoogleForm({
                 playerName: playerData.name,
                 score: 0,
@@ -424,20 +496,17 @@
             showNotification(`Welcome ${playerData.name}! Tap screen to start`);
         }
         
-        // ✅ FIXED: Save to Google Forms (No CORS issues!)
+        // Save to Google Forms
         function saveToGoogleForm(data) {
             try {
                 const formData = new FormData();
                 
-                // Add all data to form
                 for (const key in data) {
                     formData.append(key, data[key]);
                 }
                 
-                // Add timestamp
                 formData.append('timestamp', new Date().toISOString());
                 
-                // Submit to Google Form (no-cors mode works!)
                 fetch(GOOGLE_FORM_URL, {
                     method: 'POST',
                     body: formData,
@@ -445,11 +514,9 @@
                 });
                 
                 console.log('✅ Data sent to Google Form:', data);
-                showNotification('Progress saved!');
                 
             } catch (error) {
                 console.log('Form submission failed, using localStorage:', error);
-                // Save to localStorage as backup
                 localStorage.setItem('backup_' + Date.now(), JSON.stringify(data));
             }
         }
@@ -468,6 +535,7 @@
             updateDisplays();
             gameOverScreen.style.display = 'none';
             tapToStart.style.display = 'block';
+            shareButton.style.display = 'none';
             gamePaused = true;
             drawGame();
         }
@@ -493,43 +561,69 @@
         
         // Drawing functions
         function drawGame() {
-            // Clear canvas
-            ctx.fillStyle = '#1a2a3a';
+            // Clear canvas with white background
+            ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // Draw grid (optional, for better visibility)
+            ctx.strokeStyle = '#f0f0f0';
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x < tileCountX; x++) {
+                for (let y = 0; y < tileCountY; y++) {
+                    ctx.strokeRect(x * gridSize, y * gridSize, gridSize, gridSize);
+                }
+            }
+            
             // Draw snake
-            ctx.fillStyle = '#ff9800';
+            ctx.fillStyle = '#ff7e5f';
             for (let segment of snake) {
                 ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
+                ctx.strokeStyle = '#e65c4f';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
             }
             
             // Draw snake head
             if (snake.length > 0) {
-                ctx.fillStyle = '#e65100';
+                ctx.fillStyle = '#e65c4f';
                 ctx.fillRect(snake[0].x * gridSize, snake[0].y * gridSize, gridSize - 1, gridSize - 1);
+                
+                // Draw eyes
+                ctx.fillStyle = 'white';
+                ctx.fillRect(snake[0].x * gridSize + 4, snake[0].y * gridSize + 4, 4, 4);
+                ctx.fillRect(snake[0].x * gridSize + gridSize - 8, snake[0].y * gridSize + 4, 4, 4);
             }
             
-            // Draw food
-            drawOrange(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2 - 2);
+            // Draw food (bigger orange)
+            drawOrange(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2);
         }
         
         function drawOrange(x, y, radius) {
+            // Orange body (bigger)
             ctx.beginPath();
             ctx.arc(x, y, radius, 0, Math.PI * 2);
             ctx.fillStyle = '#ff9800';
             ctx.fill();
             
+            // Highlight
             ctx.beginPath();
-            ctx.arc(x - radius/3, y - radius/3, radius/4, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.arc(x - radius/2.5, y - radius/2.5, radius/3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
             ctx.fill();
             
+            // Stem
             ctx.beginPath();
             ctx.moveTo(x, y - radius);
-            ctx.lineTo(x + radius/4, y - radius - 2);
-            ctx.lineTo(x - radius/4, y - radius - 2);
+            ctx.lineTo(x + radius/3, y - radius - 3);
+            ctx.lineTo(x - radius/3, y - radius - 3);
             ctx.closePath();
             ctx.fillStyle = '#8BC34A';
+            ctx.fill();
+            
+            // Shadow
+            ctx.beginPath();
+            ctx.arc(x + radius/4, y + radius/4, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
             ctx.fill();
         }
         
@@ -592,8 +686,8 @@
             finalScoreValue.textContent = score;
             finalOrangesValue.textContent = orangesEarned;
             gameOverScreen.style.display = 'flex';
+            shareButton.style.display = 'block';
             
-            // Save final score to Google Form
             saveToGoogleForm({
                 playerName: playerData.name,
                 score: score,
@@ -603,6 +697,70 @@
                 xUsername: isXConnected ? playerData.name : 'none',
                 isGuest: playerData.isGuest ? 'true' : 'false'
             });
+        }
+        
+        // Social Sharing Functions
+        function shareOnX() {
+            const tweetText = `🎮 I just scored ${score} points and collected ${orangesEarned} oranges in Dynasty Snake! 🍊\n\nCan you beat my score?\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nPlay now: ${window.location.href}`;
+            
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+            window.open(twitterUrl, '_blank', 'width=600,height=400');
+            
+            showNotification('Sharing on X...');
+        }
+        
+        function downloadScoreImage() {
+            const scoreCanvas = document.getElementById('scoreCanvas');
+            const scoreCtx = scoreCanvas.getContext('2d');
+            
+            // Set canvas size
+            scoreCanvas.width = 800;
+            scoreCanvas.height = 400;
+            
+            // Draw background
+            scoreCtx.fillStyle = '#ffffff';
+            scoreCtx.fillRect(0, 0, scoreCanvas.width, scoreCanvas.height);
+            
+            // Draw gradient header
+            const gradient = scoreCtx.createLinearGradient(0, 0, scoreCanvas.width, 0);
+            gradient.addColorStop(0, '#ff7e5f');
+            gradient.addColorStop(1, '#feb47b');
+            scoreCtx.fillStyle = gradient;
+            scoreCtx.fillRect(0, 0, scoreCanvas.width, 100);
+            
+            // Draw title
+            scoreCtx.fillStyle = 'white';
+            scoreCtx.font = 'bold 36px Arial';
+            scoreCtx.textAlign = 'center';
+            scoreCtx.fillText('DYNASTY SNAKE', scoreCanvas.width / 2, 50);
+            
+            // Draw score
+            scoreCtx.fillStyle = '#333';
+            scoreCtx.font = 'bold 48px Arial';
+            scoreCtx.fillText(`SCORE: ${score}`, scoreCanvas.width / 2, 180);
+            scoreCtx.font = 'bold 36px Arial';
+            scoreCtx.fillText(`ORANGES: ${orangesEarned}`, scoreCanvas.width / 2, 230);
+            
+            // Draw player info
+            scoreCtx.font = '24px Arial';
+            scoreCtx.fillText(`Player: ${playerData.name}`, scoreCanvas.width / 2, 280);
+            
+            // Draw orange emoji
+            scoreCtx.font = '48px Arial';
+            scoreCtx.fillText('🍊', scoreCanvas.width / 2, 330);
+            
+            // Draw social tags
+            scoreCtx.font = '16px Arial';
+            scoreCtx.fillStyle = '#666';
+            scoreCtx.fillText('@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty', scoreCanvas.width / 2, 370);
+            
+            // Convert to image and download
+            const link = document.createElement('a');
+            link.download = `dynasty-snake-score-${score}.png`;
+            link.href = scoreCanvas.toDataURL();
+            link.click();
+            
+            showNotification('Score image downloaded!');
         }
         
         // UI functions
@@ -624,7 +782,6 @@
                 connectButton.classList.add('connected');
                 showNotification(`X account connected!`);
                 
-                // Save X connection to Google Form
                 saveToGoogleForm({
                     playerName: playerData.name,
                     score: score,
@@ -734,6 +891,7 @@
         
         // Event listeners
         connectButton.addEventListener('click', connectXAccount);
+        shareButton.addEventListener('click', shareOnX);
         
         restartButton.addEventListener('click', () => {
             gameRunning = true;
@@ -741,6 +899,7 @@
             tapToStart.style.display = 'block';
             tapToStart.textContent = 'TAP TO START';
             gameOverScreen.style.display = 'none';
+            shareButton.style.display = 'none';
             initGame();
         });
         
@@ -764,4 +923,4 @@
         setInterval(moveSnake, gameSpeed);
     </script>
 </body>
-  </html>
+        </html>
