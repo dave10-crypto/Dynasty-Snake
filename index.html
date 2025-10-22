@@ -1,4 +1,4 @@
-here<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,8 +19,8 @@ here<!DOCTYPE html>
         }
         
         body {
-            background: #ffffff;
-            color: #333333;
+            background: #FF8C00;
+            color: #ffffff;
             overflow: hidden;
             position: fixed;
             width: 100%;
@@ -39,17 +39,18 @@ here<!DOCTYPE html>
         }
         
         .header {
-            background: rgba(255, 126, 95, 0.95);
+            background: rgba(204, 85, 0, 0.9);
             padding: 15px;
             text-align: center;
             z-index: 10;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
         h1 {
             font-size: 1.8rem;
             margin-bottom: 5px;
             color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         .score-display {
@@ -58,20 +59,18 @@ here<!DOCTYPE html>
             gap: 30px;
             font-size: 1.2rem;
             font-weight: bold;
-            color: white;
         }
         
         #gameCanvas {
             flex: 1;
             width: 100%;
-            background: #f8f9fa;
+            background: #FF8C00;
             display: block;
             cursor: pointer;
-            border: 2px solid #e9ecef;
         }
         
         .controls {
-            background: rgba(255, 126, 95, 0.95);
+            background: rgba(204, 85, 0, 0.9);
             padding: 20px;
             display: flex;
             justify-content: center;
@@ -99,7 +98,7 @@ here<!DOCTYPE html>
         }
         
         .share-btn {
-            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
         }
         
         .connect-btn {
@@ -116,7 +115,7 @@ here<!DOCTYPE html>
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(0, 0, 0, 0.9);
             display: none;
             flex-direction: column;
             justify-content: center;
@@ -127,7 +126,7 @@ here<!DOCTYPE html>
         
         .game-over h2 {
             font-size: 2.5rem;
-            color: #ff7e5f;
+            color: #FF8C00;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -136,20 +135,21 @@ here<!DOCTYPE html>
             font-size: 1.5rem;
             margin-bottom: 30px;
             text-align: center;
-            color: #333;
         }
         
         .share-container {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 15px;
             margin: 20px 0;
             text-align: center;
-            border: 2px solid #ff7e5f;
+            border: 2px solid #FF8C00;
+            backdrop-filter: blur(10px);
+            max-width: 90%;
         }
         
         .share-container h3 {
-            color: #ff7e5f;
+            color: #FF8C00;
             margin-bottom: 15px;
         }
         
@@ -165,7 +165,7 @@ here<!DOCTYPE html>
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 126, 95, 0.95);
+            background: rgba(255, 140, 0, 0.95);
             padding: 20px 40px;
             border-radius: 15px;
             font-size: 1.5rem;
@@ -174,7 +174,8 @@ here<!DOCTYPE html>
             text-align: center;
             animation: pulse 2s infinite;
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 126, 95, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            border: 2px solid white;
         }
         
         @keyframes pulse {
@@ -188,13 +189,14 @@ here<!DOCTYPE html>
             bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 126, 95, 0.9);
+            background: rgba(255, 140, 0, 0.9);
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 0.9rem;
             color: white;
             text-align: center;
             z-index: 5;
+            border: 1px solid white;
         }
         
         .notification {
@@ -217,7 +219,7 @@ here<!DOCTYPE html>
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -227,18 +229,19 @@ here<!DOCTYPE html>
         }
         
         .setup-content {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 15px;
             text-align: center;
             max-width: 400px;
             width: 90%;
-            border: 3px solid #ff7e5f;
-            box-shadow: 0 8px 25px rgba(255, 126, 95, 0.2);
+            border: 3px solid #FF8C00;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
         
         .setup-content h3 {
-            color: #ff7e5f;
+            color: #FF8C00;
             margin-bottom: 15px;
         }
         
@@ -246,10 +249,10 @@ here<!DOCTYPE html>
             width: 100%;
             padding: 15px;
             margin: 15px 0;
-            border: 2px solid #ff7e5f;
+            border: 2px solid #FF8C00;
             border-radius: 8px;
-            background: #f8f9fa;
-            color: #333;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
             font-size: 1rem;
             text-align: center;
         }
@@ -273,8 +276,31 @@ here<!DOCTYPE html>
 
         .social-tags {
             font-size: 0.8rem;
-            color: #666;
+            color: #ccc;
             margin-top: 10px;
+        }
+
+        .share-preview {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .share-preview img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .share-instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #ccc;
         }
 
         @media (max-width: 768px) {
@@ -329,7 +355,7 @@ here<!DOCTYPE html>
     
     <div class="container" id="gameContainer" style="display: none;">
         <div class="header">
-            <h1>DYNASTY SNAKE</h1>
+            <h1>Dynasty Snake</h1>
             <div class="score-display">
                 <div>SCORE: <span id="score">0</span></div>
                 <div>ORANGES: <span id="oranges">0</span></div>
@@ -362,8 +388,17 @@ here<!DOCTYPE html>
         
         <div class="share-container">
             <h3>🎉 Share Your Achievement!</h3>
+            <div class="share-preview" id="sharePreview">
+                <img id="shareImage" src="" alt="Score Preview">
+            </div>
+            <div class="share-instructions">
+                <p><strong>How to share on X:</strong></p>
+                <p>1. Save the image using "Save Image" button</p>
+                <p>2. Post it on X with the tags below</p>
+                <p>3. Or use the "Share on X" button to share with text</p>
+            </div>
             <div class="share-buttons">
-                <button onclick="shareOnX()" class="share-btn">
+                <button onclick="shareOnXWithText()" class="share-btn">
                     <i class="fab fa-twitter"></i> Share on X
                 </button>
                 <button onclick="downloadScoreImage()" class="share-btn">
@@ -382,9 +417,6 @@ here<!DOCTYPE html>
     <canvas id="scoreCanvas" style="display: none;"></canvas>
 
     <script>
-        // ✅ REPLACE THIS WITH YOUR GOOGLE FORM URL
-        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdU22MN5bmf19M9Zxy4w0vwRxdrxreDiz7nfl3Q8EZkxSaUYQ/formResponse';
-        
         // Game elements
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -401,6 +433,8 @@ here<!DOCTYPE html>
         const gameContainer = document.getElementById('gameContainer');
         const playerNameInput = document.getElementById('playerName');
         const tapToStart = document.getElementById('tapToStart');
+        const sharePreview = document.getElementById('sharePreview');
+        const shareImage = document.getElementById('shareImage');
         
         // Player data
         let playerData = {
@@ -411,7 +445,7 @@ here<!DOCTYPE html>
         };
         
         // Game state
-        let gridSize = 25; // Increased grid size for bigger oranges
+        let gridSize = 25;
         let tileCountX, tileCountY;
         let snake = [];
         let food = {};
@@ -422,6 +456,7 @@ here<!DOCTYPE html>
         let gameRunning = false;
         let gamePaused = true;
         let isXConnected = false;
+        let shareImageData = null;
         
         // Initialize canvas size
         function resizeCanvas() {
@@ -433,7 +468,7 @@ here<!DOCTYPE html>
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight - headerHeight - controlsHeight;
             
-            gridSize = Math.max(20, Math.min(30, Math.floor(canvas.width / 20))); // Adjusted for bigger oranges
+            gridSize = Math.max(20, Math.min(30, Math.floor(canvas.width / 20)));
             tileCountX = Math.floor(canvas.width / gridSize);
             tileCountY = Math.floor(canvas.height / gridSize);
             
@@ -451,16 +486,6 @@ here<!DOCTYPE html>
                 playerData.isGuest = false;
                 playerData.sessionStart = new Date();
                 startGame();
-                
-                saveToGoogleForm({
-                    playerName: playerData.name,
-                    score: 0,
-                    oranges: 0,
-                    playerId: playerData.playerId,
-                    action: 'new_player',
-                    xUsername: 'none',
-                    isGuest: 'false'
-                });
             } else {
                 showNotification('Please enter your name', true);
             }
@@ -472,16 +497,6 @@ here<!DOCTYPE html>
             playerData.isGuest = true;
             playerData.sessionStart = new Date();
             startGame();
-            
-            saveToGoogleForm({
-                playerName: playerData.name,
-                score: 0,
-                oranges: 0,
-                playerId: playerData.playerId,
-                action: 'new_player',
-                xUsername: 'none',
-                isGuest: 'true'
-            });
         }
         
         function generatePlayerId() {
@@ -494,31 +509,6 @@ here<!DOCTYPE html>
             resizeCanvas();
             initGame();
             showNotification(`Welcome ${playerData.name}! Tap screen to start`);
-        }
-        
-        // Save to Google Forms
-        function saveToGoogleForm(data) {
-            try {
-                const formData = new FormData();
-                
-                for (const key in data) {
-                    formData.append(key, data[key]);
-                }
-                
-                formData.append('timestamp', new Date().toISOString());
-                
-                fetch(GOOGLE_FORM_URL, {
-                    method: 'POST',
-                    body: formData,
-                    mode: 'no-cors'
-                });
-                
-                console.log('✅ Data sent to Google Form:', data);
-                
-            } catch (error) {
-                console.log('Form submission failed, using localStorage:', error);
-                localStorage.setItem('backup_' + Date.now(), JSON.stringify(data));
-            }
         }
         
         // Game initialization
@@ -536,6 +526,7 @@ here<!DOCTYPE html>
             gameOverScreen.style.display = 'none';
             tapToStart.style.display = 'block';
             shareButton.style.display = 'none';
+            sharePreview.style.display = 'none';
             gamePaused = true;
             drawGame();
         }
@@ -561,48 +552,70 @@ here<!DOCTYPE html>
         
         // Drawing functions
         function drawGame() {
-            // Clear canvas with white background
-            ctx.fillStyle = '#ffffff';
+            // Clear canvas with solid orange background
+            ctx.fillStyle = '#FF8C00';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Draw grid (optional, for better visibility)
-            ctx.strokeStyle = '#f0f0f0';
-            ctx.lineWidth = 0.5;
-            for (let x = 0; x < tileCountX; x++) {
-                for (let y = 0; y < tileCountY; y++) {
-                    ctx.strokeRect(x * gridSize, y * gridSize, gridSize, gridSize);
+            // Draw snake with round head
+            for (let i = 0; i < snake.length; i++) {
+                const segment = snake[i];
+                const x = segment.x * gridSize + gridSize/2;
+                const y = segment.y * gridSize + gridSize/2;
+                const radius = gridSize/2 - 1;
+                
+                // Draw shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.beginPath();
+                ctx.arc(x + 2, y + 2, radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (i === 0) {
+                    // Round snake head
+                    ctx.fillStyle = '#CC5500';
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw eyes
+                    ctx.fillStyle = 'white';
+                    ctx.beginPath();
+                    ctx.arc(x - radius/2, y - radius/3, radius/4, 0, Math.PI * 2);
+                    ctx.arc(x + radius/2, y - radius/3, radius/4, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw pupils
+                    ctx.fillStyle = 'black';
+                    ctx.beginPath();
+                    ctx.arc(x - radius/2, y - radius/3, radius/8, 0, Math.PI * 2);
+                    ctx.arc(x + radius/2, y - radius/3, radius/8, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // Snake body (rectangular)
+                    ctx.fillStyle = '#FFA500';
+                    ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
+                    
+                    // Body border
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
                 }
             }
             
-            // Draw snake
-            ctx.fillStyle = '#ff7e5f';
-            for (let segment of snake) {
-                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
-                ctx.strokeStyle = '#e65c4f';
-                ctx.lineWidth = 1;
-                ctx.strokeRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
-            }
-            
-            // Draw snake head
-            if (snake.length > 0) {
-                ctx.fillStyle = '#e65c4f';
-                ctx.fillRect(snake[0].x * gridSize, snake[0].y * gridSize, gridSize - 1, gridSize - 1);
-                
-                // Draw eyes
-                ctx.fillStyle = 'white';
-                ctx.fillRect(snake[0].x * gridSize + 4, snake[0].y * gridSize + 4, 4, 4);
-                ctx.fillRect(snake[0].x * gridSize + gridSize - 8, snake[0].y * gridSize + 4, 4, 4);
-            }
-            
-            // Draw food (bigger orange)
+            // Draw food (big orange)
             drawOrange(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2);
         }
         
         function drawOrange(x, y, radius) {
-            // Orange body (bigger)
+            // Draw shadow
+            ctx.beginPath();
+            ctx.arc(x + 2, y + 2, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fill();
+            
+            // Orange body
             ctx.beginPath();
             ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#ff9800';
+            ctx.fillStyle = '#FF9800';
             ctx.fill();
             
             // Highlight
@@ -618,12 +631,6 @@ here<!DOCTYPE html>
             ctx.lineTo(x - radius/3, y - radius - 3);
             ctx.closePath();
             ctx.fillStyle = '#8BC34A';
-            ctx.fill();
-            
-            // Shadow
-            ctx.beginPath();
-            ctx.arc(x + radius/4, y + radius/4, radius, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
             ctx.fill();
         }
         
@@ -649,14 +656,14 @@ here<!DOCTYPE html>
             
             snake.unshift(head);
             
-            // Check food collision
+            // Check food collision - 1 point = 1 orange
             if (head.x === food.x && head.y === food.y) {
                 score += 1;
+                orangesEarned += 1; // 1 point = 1 orange
                 
-                // Award oranges every 10 points
-                if (score % 10 === 0) {
-                    orangesEarned += 2;
-                    showNotification(`🎉 +2 Oranges! Total: ${orangesEarned}`);
+                // Celebration for every 5 oranges
+                if (orangesEarned % 5 === 0) {
+                    showNotification(`🎉 ${orangesEarned} Oranges Collected!`);
                     createOrangeCelebration();
                 }
                 
@@ -688,79 +695,70 @@ here<!DOCTYPE html>
             gameOverScreen.style.display = 'flex';
             shareButton.style.display = 'block';
             
-            saveToGoogleForm({
-                playerName: playerData.name,
-                score: score,
-                oranges: orangesEarned,
-                playerId: playerData.playerId,
-                action: 'game_score',
-                xUsername: isXConnected ? playerData.name : 'none',
-                isGuest: playerData.isGuest ? 'true' : 'false'
-            });
+            // Automatically generate share image
+            setTimeout(generateShareImage, 500);
         }
         
         // Social Sharing Functions
-        function shareOnX() {
-            const tweetText = `🎮 I just scored ${score} points and collected ${orangesEarned} oranges in Dynasty Snake! 🍊\n\nCan you beat my score?\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nPlay now: ${window.location.href}`;
+        function generateShareImage() {
+            const scoreCanvas = document.getElementById('scoreCanvas');
+            const scoreCtx = scoreCanvas.getContext('2d');
+            
+            // Set canvas size - optimized for X/Twitter
+            scoreCanvas.width = 800;
+            scoreCanvas.height = 400;
+            
+            // Draw background with orange gradient
+            const gradient = scoreCtx.createLinearGradient(0, 0, scoreCanvas.width, scoreCanvas.height);
+            gradient.addColorStop(0, '#FF8C00');
+            gradient.addColorStop(1, '#FFA500');
+            scoreCtx.fillStyle = gradient;
+            scoreCtx.fillRect(0, 0, scoreCanvas.width, scoreCanvas.height);
+            
+            // Draw large orange emoji in center
+            scoreCtx.font = 'bold 150px Arial';
+            scoreCtx.textAlign = 'center';
+            scoreCtx.fillText('🍊', scoreCanvas.width / 2, scoreCanvas.height / 2 + 40);
+            
+            // Draw score with snake emoji
+            scoreCtx.fillStyle = 'white';
+            scoreCtx.font = 'bold 50px Arial';
+            scoreCtx.fillText(`🐍 Score: ${score} 🐍`, scoreCanvas.width / 2, scoreCanvas.height - 80);
+            
+            // Draw social tags
+            scoreCtx.font = '20px Arial';
+            scoreCtx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            scoreCtx.fillText('@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty', scoreCanvas.width / 2, scoreCanvas.height - 30);
+            
+            // Convert to image and display
+            shareImageData = scoreCanvas.toDataURL();
+            shareImage.src = shareImageData;
+            sharePreview.style.display = 'block';
+            
+            showNotification('Share image generated automatically!');
+        }
+        
+        function shareOnXWithText() {
+            const tweetText = `🐍 I scored ${score} points in Dynasty Snake! 🍊\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nPlay now and beat my score!`;
             
             const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
             window.open(twitterUrl, '_blank', 'width=600,height=400');
             
-            showNotification('Sharing on X...');
+            showNotification('Opening X to share your score!');
         }
         
         function downloadScoreImage() {
-            const scoreCanvas = document.getElementById('scoreCanvas');
-            const scoreCtx = scoreCanvas.getContext('2d');
+            if (!shareImageData) {
+                showNotification('Please generate an image first', true);
+                return;
+            }
             
-            // Set canvas size
-            scoreCanvas.width = 800;
-            scoreCanvas.height = 400;
-            
-            // Draw background
-            scoreCtx.fillStyle = '#ffffff';
-            scoreCtx.fillRect(0, 0, scoreCanvas.width, scoreCanvas.height);
-            
-            // Draw gradient header
-            const gradient = scoreCtx.createLinearGradient(0, 0, scoreCanvas.width, 0);
-            gradient.addColorStop(0, '#ff7e5f');
-            gradient.addColorStop(1, '#feb47b');
-            scoreCtx.fillStyle = gradient;
-            scoreCtx.fillRect(0, 0, scoreCanvas.width, 100);
-            
-            // Draw title
-            scoreCtx.fillStyle = 'white';
-            scoreCtx.font = 'bold 36px Arial';
-            scoreCtx.textAlign = 'center';
-            scoreCtx.fillText('DYNASTY SNAKE', scoreCanvas.width / 2, 50);
-            
-            // Draw score
-            scoreCtx.fillStyle = '#333';
-            scoreCtx.font = 'bold 48px Arial';
-            scoreCtx.fillText(`SCORE: ${score}`, scoreCanvas.width / 2, 180);
-            scoreCtx.font = 'bold 36px Arial';
-            scoreCtx.fillText(`ORANGES: ${orangesEarned}`, scoreCanvas.width / 2, 230);
-            
-            // Draw player info
-            scoreCtx.font = '24px Arial';
-            scoreCtx.fillText(`Player: ${playerData.name}`, scoreCanvas.width / 2, 280);
-            
-            // Draw orange emoji
-            scoreCtx.font = '48px Arial';
-            scoreCtx.fillText('🍊', scoreCanvas.width / 2, 330);
-            
-            // Draw social tags
-            scoreCtx.font = '16px Arial';
-            scoreCtx.fillStyle = '#666';
-            scoreCtx.fillText('@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty', scoreCanvas.width / 2, 370);
-            
-            // Convert to image and download
             const link = document.createElement('a');
-            link.download = `dynasty-snake-score-${score}.png`;
-            link.href = scoreCanvas.toDataURL();
+            link.download = `orange-dynasty-score-${score}.png`;
+            link.href = shareImageData;
             link.click();
             
-            showNotification('Score image downloaded!');
+            showNotification('Score image downloaded! Ready to share on X!');
         }
         
         // UI functions
@@ -781,16 +779,6 @@ here<!DOCTYPE html>
                 connectButton.innerHTML = '<i class="fab fa-twitter"></i> CONNECTED';
                 connectButton.classList.add('connected');
                 showNotification(`X account connected!`);
-                
-                saveToGoogleForm({
-                    playerName: playerData.name,
-                    score: score,
-                    oranges: orangesEarned,
-                    playerId: playerData.playerId,
-                    action: 'x_connect',
-                    xUsername: username,
-                    isGuest: playerData.isGuest ? 'true' : 'false'
-                });
             }
         }
         
@@ -891,7 +879,7 @@ here<!DOCTYPE html>
         
         // Event listeners
         connectButton.addEventListener('click', connectXAccount);
-        shareButton.addEventListener('click', shareOnX);
+        shareButton.addEventListener('click', generateShareImage);
         
         restartButton.addEventListener('click', () => {
             gameRunning = true;
@@ -900,6 +888,7 @@ here<!DOCTYPE html>
             tapToStart.textContent = 'TAP TO START';
             gameOverScreen.style.display = 'none';
             shareButton.style.display = 'none';
+            sharePreview.style.display = 'none';
             initGame();
         });
         
@@ -923,4 +912,4 @@ here<!DOCTYPE html>
         setInterval(moveSnake, gameSpeed);
     </script>
 </body>
-        </html>
+</html>
