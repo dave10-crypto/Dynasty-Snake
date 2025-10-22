@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynasty Snake</title>
+    <title>Orange Dynasty Snake</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -155,9 +155,34 @@
         
         .share-buttons {
             display: flex;
+            flex-direction: column;
             gap: 10px;
             justify-content: center;
-            flex-wrap: wrap;
+        }
+        
+        .share-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .share-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .share-option i {
+            font-size: 1.2rem;
         }
         
         .tap-to-start {
@@ -294,13 +319,14 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        .share-instructions {
+        .fallback-message {
             background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 10px;
             margin-top: 15px;
             font-size: 0.9rem;
             color: #ccc;
+            display: none;
         }
 
         @media (max-width: 768px) {
@@ -330,10 +356,21 @@
                 font-size: 1.2rem;
                 padding: 15px 30px;
             }
+        }
+
+        /* Mobile-specific optimizations */
+        @media (max-width: 480px) {
+            .share-option {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
             
-            .share-buttons {
-                flex-direction: column;
-                align-items: center;
+            .share-container {
+                padding: 15px;
+            }
+            
+            .game-over {
+                padding: 15px;
             }
         }
     </style>
@@ -343,7 +380,7 @@
     
     <div class="user-setup" id="userSetup">
         <div class="setup-content">
-            <h3>🎮 Welcome to Dynasty Snake!</h3>
+            <h3>🎮 Welcome to Orange Dynasty Snake!</h3>
             <p>Enter your name to start playing</p>
             <input type="text" id="playerName" placeholder="Your name" maxlength="20">
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
@@ -355,7 +392,7 @@
     
     <div class="container" id="gameContainer" style="display: none;">
         <div class="header">
-            <h1>Dynasty Snake</h1>
+            <h1>ORANGE DYNASTY SNAKE</h1>
             <div class="score-display">
                 <div>SCORE: <span id="score">0</span></div>
                 <div>ORANGES: <span id="oranges">0</span></div>
@@ -368,9 +405,6 @@
         <div class="controls">
             <button id="connectButton" class="connect-btn">
                 <i class="fab fa-twitter"></i> CONNECT X
-            </button>
-            <button id="shareButton" class="share-btn" style="display: none;">
-                <i class="fas fa-share-alt"></i> SHARE SCORE
             </button>
         </div>
         
@@ -387,24 +421,35 @@
         </div>
         
         <div class="share-container">
-            <h3>🎉 Share Your Achievement!</h3>
+            <h3>🎉 Share Your Score!</h3>
             <div class="share-preview" id="sharePreview">
                 <img id="shareImage" src="" alt="Score Preview">
             </div>
-            <div class="share-instructions">
-                <p><strong>How to share on X:</strong></p>
-                <p>1. Save the image using "Save Image" button</p>
-                <p>2. Post it on X with the tags below</p>
-                <p>3. Or use the "Share on X" button to share with text</p>
-            </div>
+            
             <div class="share-buttons">
-                <button onclick="shareOnXWithText()" class="share-btn">
-                    <i class="fab fa-twitter"></i> Share on X
+                <button class="share-option" onclick="nativeShare()">
+                    <i class="fas fa-share-alt"></i>
+                    Share to X (Mobile)
                 </button>
-                <button onclick="downloadScoreImage()" class="share-btn">
-                    <i class="fas fa-download"></i> Save Image
+                
+                <button class="share-option" onclick="downloadScoreImage()">
+                    <i class="fas fa-download"></i>
+                    Save Image
                 </button>
             </div>
+            
+            <div class="fallback-message" id="fallbackMessage">
+                <p><strong>Can't share directly?</strong></p>
+                <p>1. Save the image using the button above</p>
+                <p>2. Open X and create a new post</p>
+                <p>3. Attach the saved image</p>
+                <p>4. Use this text:</p>
+                <p style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin: 10px 0;">
+                    🐍 I scored <span id="shareScoreText">0</span> points in Orange Dynasty Snake! 🍊<br>
+                    @daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
+                </p>
+            </div>
+            
             <div class="social-tags">
                 Tags: @daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
             </div>
@@ -422,8 +467,6 @@
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.getElementById('score');
         const orangesDisplay = document.getElementById('oranges');
-        const connectButton = document.getElementById('connectButton');
-        const shareButton = document.getElementById('shareButton');
         const gameOverScreen = document.getElementById('gameOver');
         const finalScoreValue = document.getElementById('finalScoreValue');
         const finalOrangesValue = document.getElementById('finalOrangesValue');
@@ -435,6 +478,8 @@
         const tapToStart = document.getElementById('tapToStart');
         const sharePreview = document.getElementById('sharePreview');
         const shareImage = document.getElementById('shareImage');
+        const fallbackMessage = document.getElementById('fallbackMessage');
+        const shareScoreText = document.getElementById('shareScoreText');
         
         // Player data
         let playerData = {
@@ -455,8 +500,10 @@
         let orangesEarned = 0;
         let gameRunning = false;
         let gamePaused = true;
-        let isXConnected = false;
         let shareImageData = null;
+        
+        // Check if Native Share API is supported
+        const canNativeShare = navigator.share && navigator.canShare;
         
         // Initialize canvas size
         function resizeCanvas() {
@@ -525,8 +572,8 @@
             updateDisplays();
             gameOverScreen.style.display = 'none';
             tapToStart.style.display = 'block';
-            shareButton.style.display = 'none';
             sharePreview.style.display = 'none';
+            fallbackMessage.style.display = 'none';
             gamePaused = true;
             drawGame();
         }
@@ -693,18 +740,62 @@
             finalScoreValue.textContent = score;
             finalOrangesValue.textContent = orangesEarned;
             gameOverScreen.style.display = 'flex';
-            shareButton.style.display = 'block';
             
             // Automatically generate share image
-            setTimeout(generateShareImage, 500);
+            setTimeout(() => {
+                generateShareImage();
+                showNotification('Share image ready! Tap "Share to X" for mobile sharing');
+            }, 500);
         }
         
-        // Social Sharing Functions
+        // Native Share API Function
+        async function nativeShare() {
+            if (!shareImageData) {
+                showNotification('Please wait for image to generate', true);
+                return;
+            }
+            
+            try {
+                // Convert base64 to blob
+                const response = await fetch(shareImageData);
+                const blob = await response.blob();
+                
+                // Create file for sharing
+                const file = new File([blob], `orange-dynasty-score-${score}.png`, { 
+                    type: 'image/png' 
+                });
+                
+                // Check if we can share files
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        title: 'Orange Dynasty Snake Score',
+                        text: `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty`,
+                        files: [file]
+                    });
+                    showNotification('Shared successfully! 🎉');
+                } else {
+                    // Fallback: share without files
+                    await navigator.share({
+                        title: 'Orange Dynasty Snake Score',
+                        text: `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nDownload the game to play!`
+                    });
+                    showNotification('Shared successfully! 🎉');
+                }
+            } catch (err) {
+                console.log('Share failed:', err);
+                if (err.name !== 'AbortError') {
+                    showNotification('Sharing failed. Try saving the image instead.');
+                    fallbackMessage.style.display = 'block';
+                }
+            }
+        }
+        
+        // Generate share image
         function generateShareImage() {
             const scoreCanvas = document.getElementById('scoreCanvas');
             const scoreCtx = scoreCanvas.getContext('2d');
             
-            // Set canvas size - optimized for X/Twitter
+            // Set canvas size - optimized for mobile sharing
             scoreCanvas.width = 800;
             scoreCanvas.height = 400;
             
@@ -734,22 +825,17 @@
             shareImageData = scoreCanvas.toDataURL();
             shareImage.src = shareImageData;
             sharePreview.style.display = 'block';
+            shareScoreText.textContent = score;
             
-            showNotification('Share image generated automatically!');
-        }
-        
-        function shareOnXWithText() {
-            const tweetText = `🐍 I scored ${score} points in Dynasty Snake! 🍊\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nPlay now and beat my score!`;
-            
-            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-            window.open(twitterUrl, '_blank', 'width=600,height=400');
-            
-            showNotification('Opening X to share your score!');
+            // Show fallback instructions if Native Share isn't available
+            if (!canNativeShare) {
+                fallbackMessage.style.display = 'block';
+            }
         }
         
         function downloadScoreImage() {
             if (!shareImageData) {
-                showNotification('Please generate an image first', true);
+                showNotification('Please wait for image to generate', true);
                 return;
             }
             
@@ -758,7 +844,8 @@
             link.href = shareImageData;
             link.click();
             
-            showNotification('Score image downloaded! Ready to share on X!');
+            showNotification('Image saved! You can now share it on X');
+            fallbackMessage.style.display = 'block';
         }
         
         // UI functions
@@ -770,16 +857,6 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
-        }
-        
-        function connectXAccount() {
-            const username = prompt("Enter your X username (without @):");
-            if (username && username.trim()) {
-                isXConnected = true;
-                connectButton.innerHTML = '<i class="fab fa-twitter"></i> CONNECTED';
-                connectButton.classList.add('connected');
-                showNotification(`X account connected!`);
-            }
         }
         
         function toggleGame() {
@@ -844,51 +921,15 @@
             event.preventDefault();
         }
         
-        // Keyboard controls
-        function changeDirection(event) {
-            if (!gameRunning || gamePaused) return;
-            
-            const key = event.keyCode;
-            const goingUp = dy === -1;
-            const goingDown = dy === 1;
-            const goingRight = dx === 1;
-            const goingLeft = dx === -1;
-            
-            if (key === 37 && !goingRight) {
-                dx = -1;
-                dy = 0;
-            }
-            if (key === 38 && !goingDown) {
-                dx = 0;
-                dy = -1;
-            }
-            if (key === 39 && !goingLeft) {
-                dx = 1;
-                dy = 0;
-            }
-            if (key === 40 && !goingUp) {
-                dx = 0;
-                dy = 1;
-            }
-            
-            // Space bar to pause
-            if (key === 32) {
-                toggleGame();
-            }
-        }
-        
         // Event listeners
-        connectButton.addEventListener('click', connectXAccount);
-        shareButton.addEventListener('click', generateShareImage);
-        
         restartButton.addEventListener('click', () => {
             gameRunning = true;
             gamePaused = true;
             tapToStart.style.display = 'block';
             tapToStart.textContent = 'TAP TO START';
             gameOverScreen.style.display = 'none';
-            shareButton.style.display = 'none';
             sharePreview.style.display = 'none';
+            fallbackMessage.style.display = 'none';
             initGame();
         });
         
@@ -900,7 +941,6 @@
             }
         });
         
-        document.addEventListener('keydown', changeDirection);
         canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
         canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
         
