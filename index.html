@@ -338,6 +338,7 @@
             border: 1px dashed #FF8C00;
             font-size: 0.85rem;
             line-height: 1.4;
+            text-align: left;
         }
 
         .share-text:hover {
@@ -466,17 +467,9 @@
                 <p>4. Copy and paste this text:</p>
                 <div class="share-text" onclick="copyShareText()">
                     🐍 I scored <span id="shareScoreText">0</span> points in Orange Dynasty Snake! 🍊<br><br>
-                    @daveayu10<br>
-                    @sign<br>
-                    @claireMa12<br>
-                    @ethsign<br>
-                    @orangeDynasty<br><br>
+                    @daveayu10 @sign @claireMa12 @ethsign @orangeDynasty<br><br>
                     Play now: https://dynasty-snake.vercel.app/
                 </div>
-            </div>
-            
-            <div class="social-tags">
-                Tags: @daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
             </div>
         </div>
         
@@ -773,7 +766,7 @@
             }, 500);
         }
         
-        // Native Share API Function with proper tagging and link
+        // Native Share API Function with clean image and text with tags
         async function nativeShare() {
             if (!shareImageData) {
                 showNotification('Please wait for image to generate', true);
@@ -790,14 +783,10 @@
                     type: 'image/png' 
                 });
                 
-                // Proper tagging format for X with game link
+                // Text with tags and link (NOT in the image)
                 const shareText = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
 
-@daveayu10
-@sign
-@claireMa12
-@ethsign
-@orangeDynasty
+@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
 
 Play now: https://dynasty-snake.vercel.app/`;
                 
@@ -826,7 +815,7 @@ Play now: https://dynasty-snake.vercel.app/`;
             }
         }
         
-        // Generate share image
+        // Generate clean share image (only score and orange)
         function generateShareImage() {
             const scoreCanvas = document.getElementById('scoreCanvas');
             const scoreCtx = scoreCanvas.getContext('2d');
@@ -843,20 +832,16 @@ Play now: https://dynasty-snake.vercel.app/`;
             scoreCtx.fillRect(0, 0, scoreCanvas.width, scoreCanvas.height);
             
             // Draw large orange emoji in center
-            scoreCtx.font = 'bold 150px Arial';
+            scoreCtx.font = 'bold 180px Arial';
             scoreCtx.textAlign = 'center';
-            scoreCtx.fillText('🍊', scoreCanvas.width / 2, scoreCanvas.height / 2 + 40);
+            scoreCtx.fillText('🍊', scoreCanvas.width / 2, scoreCanvas.height / 2 + 60);
             
-            // Draw score with snake emoji
+            // Draw score with snake emoji (clean and centered)
             scoreCtx.fillStyle = 'white';
-            scoreCtx.font = 'bold 50px Arial';
-            scoreCtx.fillText(`🐍 Score: ${score} 🐍`, scoreCanvas.width / 2, scoreCanvas.height - 80);
+            scoreCtx.font = 'bold 60px Arial';
+            scoreCtx.fillText(`Score: ${score}`, scoreCanvas.width / 2, scoreCanvas.height - 80);
             
-            // Draw social tags and link
-            scoreCtx.font = '18px Arial';
-            scoreCtx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            scoreCtx.fillText('@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty', scoreCanvas.width / 2, scoreCanvas.height - 45);
-            scoreCtx.fillText('Play: dynasty-snake.vercel.app', scoreCanvas.width / 2, scoreCanvas.height - 15);
+            // NO TAGS OR LINKS IN THE IMAGE - clean design
             
             // Convert to image and display
             shareImageData = scoreCanvas.toDataURL();
@@ -888,11 +873,7 @@ Play now: https://dynasty-snake.vercel.app/`;
         function copyShareText() {
             const text = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
 
-@daveayu10
-@sign
-@claireMa12
-@ethsign
-@orangeDynasty
+@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
 
 Play now: https://dynasty-snake.vercel.app/`;
             
