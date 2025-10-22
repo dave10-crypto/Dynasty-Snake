@@ -329,6 +329,21 @@
             display: none;
         }
 
+        .share-text {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            cursor: pointer;
+            border: 1px dashed #FF8C00;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .share-text:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         @media (max-width: 768px) {
             .header {
                 padding: 12px;
@@ -371,6 +386,11 @@
             
             .game-over {
                 padding: 15px;
+            }
+            
+            .share-text {
+                font-size: 0.8rem;
+                padding: 10px;
             }
         }
     </style>
@@ -443,11 +463,16 @@
                 <p>1. Save the image using the button above</p>
                 <p>2. Open X and create a new post</p>
                 <p>3. Attach the saved image</p>
-                <p>4. Use this text:</p>
-                <p style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin: 10px 0;">
-                    🐍 I scored <span id="shareScoreText">0</span> points in Orange Dynasty Snake! 🍊<br>
-                    @daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
-                </p>
+                <p>4. Copy and paste this text:</p>
+                <div class="share-text" onclick="copyShareText()">
+                    🐍 I scored <span id="shareScoreText">0</span> points in Orange Dynasty Snake! 🍊<br><br>
+                    @daveayu10<br>
+                    @sign<br>
+                    @claireMa12<br>
+                    @ethsign<br>
+                    @orangeDynasty<br><br>
+                    Play now: https://dynasty-snake.vercel.app/
+                </div>
             </div>
             
             <div class="social-tags">
@@ -748,7 +773,7 @@
             }, 500);
         }
         
-        // Native Share API Function
+        // Native Share API Function with proper tagging and link
         async function nativeShare() {
             if (!shareImageData) {
                 showNotification('Please wait for image to generate', true);
@@ -765,11 +790,22 @@
                     type: 'image/png' 
                 });
                 
+                // Proper tagging format for X with game link
+                const shareText = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
+
+@daveayu10
+@sign
+@claireMa12
+@ethsign
+@orangeDynasty
+
+Play now: https://dynasty-snake.vercel.app/`;
+                
                 // Check if we can share files
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         title: 'Orange Dynasty Snake Score',
-                        text: `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty`,
+                        text: shareText,
                         files: [file]
                     });
                     showNotification('Shared successfully! 🎉');
@@ -777,7 +813,7 @@
                     // Fallback: share without files
                     await navigator.share({
                         title: 'Orange Dynasty Snake Score',
-                        text: `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊\n\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nDownload the game to play!`
+                        text: shareText
                     });
                     showNotification('Shared successfully! 🎉');
                 }
@@ -816,10 +852,11 @@
             scoreCtx.font = 'bold 50px Arial';
             scoreCtx.fillText(`🐍 Score: ${score} 🐍`, scoreCanvas.width / 2, scoreCanvas.height - 80);
             
-            // Draw social tags
-            scoreCtx.font = '20px Arial';
+            // Draw social tags and link
+            scoreCtx.font = '18px Arial';
             scoreCtx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            scoreCtx.fillText('@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty', scoreCanvas.width / 2, scoreCanvas.height - 30);
+            scoreCtx.fillText('@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty', scoreCanvas.width / 2, scoreCanvas.height - 45);
+            scoreCtx.fillText('Play: dynasty-snake.vercel.app', scoreCanvas.width / 2, scoreCanvas.height - 15);
             
             // Convert to image and display
             shareImageData = scoreCanvas.toDataURL();
@@ -846,6 +883,31 @@
             
             showNotification('Image saved! You can now share it on X');
             fallbackMessage.style.display = 'block';
+        }
+        
+        function copyShareText() {
+            const text = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
+
+@daveayu10
+@sign
+@claireMa12
+@ethsign
+@orangeDynasty
+
+Play now: https://dynasty-snake.vercel.app/`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Share text copied to clipboard! 📋');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('Share text copied to clipboard! 📋');
+            });
         }
         
         // UI functions
