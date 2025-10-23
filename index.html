@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orange Dynasty Snake</title>
+    <title>Dynasty Snake</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -453,7 +453,7 @@
     <div class="desktop-message">
         <div>
             <h2>📱 Mobile Only</h2>
-            <p>Orange Dynasty Snake is designed for mobile devices.</p>
+            <p>Dynasty Snake 🐍is designed for mobile devices.</p>
             <p>Please open this game on your smartphone or tablet.</p>
         </div>
     </div>
@@ -462,7 +462,7 @@
 
     <div class="user-setup" id="userSetup">
         <div class="setup-content">
-            <h3>🎮 Welcome to Orange Dynasty Snake!</h3>
+            <h3>🎮 Welcome to Dynasty Snake!</h3>
             <p>Enter your name to start playing</p>
             <input type="text" id="playerName" placeholder="Your name" maxlength="20">
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
@@ -474,7 +474,7 @@
 
     <div class="container" id="gameContainer" style="display: none;">
         <div class="header">
-            <h1>ORANGE DYNASTY SNAKE</h1>
+            <h1>Dynasty Snake</h1>
             <div class="score-display">
                 <div>SCORE: <span id="score">0</span></div>
                 <div>ORANGES: <span id="oranges">0</span></div>
@@ -1059,7 +1059,7 @@
             snake.unshift(head);
                 
             if (head.x === food.x && head.y === food.y) {
-                score += 1;
+                score += 3;
                 orangesEarned += 1;
                     
                 if (orangesEarned % 5 === 0) {
@@ -1202,7 +1202,7 @@
             
         function openXWithTags() {
             const emojiScore = generateEmojiScoreForX();
-            const tweetText = `🐍 I scored ${score} points in Orange Dynasty Snake!\n\n${emojiScore}\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nPlay now: https://dynasty-snake.vercel.app/`;
+            const tweetText = `🐍 I scored ${score} points in Dynasty Snake!\n\n${emojiScore}\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nPlay now: https://dynasty-snake.vercel.app/`;
                 
             const encodedText = encodeURIComponent(tweetText);
             const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
