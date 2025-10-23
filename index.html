@@ -1059,19 +1059,20 @@
             snake.unshift(head);
                 
             if (head.x === food.x && head.y === food.y) {
-                score += 3;
-                orangesEarned += 1;
-                    
-                if (orangesEarned % 5 === 0) {
-                    showNotification(`🎉 ${orangesEarned} Oranges Collected!`);
-                }
-                    
-                updateDisplays();
-                generateFood();
-                generatePowerUp();
-            } else {
-                snake.pop();
-            }
+    score += 1;
+    
+    // Give 1 orange for every 3 points
+    if (score % 3 === 0) {
+        orangesEarned += 1;
+        showNotification(`🎉 ${orangesEarned} Oranges Collected!`);
+    }
+    
+    updateDisplays();
+    generateFood();
+    generatePowerUp();
+} else {
+    snake.pop();
+}
                 
             // Check for power-up collision
             for (let i = 0; i < powerUps.length; i++) {
