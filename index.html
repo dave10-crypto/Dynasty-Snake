@@ -19,13 +19,28 @@
         }
         
         body {
-            background: #FF8C00;
+            background: linear-gradient(135deg, #FF8C00, #FF6B00);
             color: #ffffff;
             overflow: hidden;
             position: fixed;
             width: 100%;
             height: 100%;
             touch-action: none;
+        }
+        
+        .desktop-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #FF8C00, #FF6B00);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 1000;
         }
         
         .container {
@@ -39,11 +54,12 @@
         }
         
         .header {
-            background: rgba(204, 85, 0, 0.9);
+            background: rgba(204, 85, 0, 0.95);
             padding: 15px;
             text-align: center;
             z-index: 10;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
         }
         
         h1 {
@@ -51,6 +67,7 @@
             margin-bottom: 5px;
             color: white;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
         }
         
         .score-display {
@@ -64,19 +81,20 @@
         #gameCanvas {
             flex: 1;
             width: 100%;
-            background: #FF8C00;
+            background: linear-gradient(135deg, #FF8C00, #FF6B00);
             display: block;
             cursor: pointer;
         }
         
         .controls {
-            background: rgba(204, 85, 0, 0.9);
+            background: rgba(204, 85, 0, 0.95);
             padding: 20px;
             display: flex;
             justify-content: center;
             gap: 15px;
             z-index: 10;
             flex-wrap: wrap;
+            border-top: 3px solid rgba(255, 255, 255, 0.2);
         }
         
         button {
@@ -89,24 +107,16 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
         
         .share-btn {
             background: linear-gradient(45deg, #FF8C00, #FFA500);
-        }
-        
-        .connect-btn {
-            background: #1da1f2;
-        }
-        
-        .connected {
-            background: #4CAF50;
         }
         
         .game-over {
@@ -129,6 +139,7 @@
             color: #FF8C00;
             margin-bottom: 20px;
             text-align: center;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
         
         .final-score {
@@ -146,6 +157,7 @@
             border: 2px solid #FF8C00;
             backdrop-filter: blur(10px);
             max-width: 90%;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3);
         }
         
         .share-container h3 {
@@ -176,15 +188,6 @@
             font-weight: bold;
         }
         
-        .share-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        
-        .share-option i {
-            font-size: 1.2rem;
-        }
-        
         .tap-to-start {
             position: fixed;
             top: 50%;
@@ -199,8 +202,9 @@
             text-align: center;
             animation: pulse 2s infinite;
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
             border: 2px solid white;
+            backdrop-filter: blur(5px);
         }
         
         @keyframes pulse {
@@ -222,6 +226,7 @@
             text-align: center;
             z-index: 5;
             border: 1px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .notification {
@@ -236,6 +241,7 @@
             display: none;
             z-index: 150;
             font-weight: 500;
+            backdrop-filter: blur(5px);
         }
         
         .user-setup {
@@ -245,7 +251,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            display: flex;
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -282,123 +288,174 @@
             text-align: center;
         }
         
-        .orange-celebration {
+        .emoji-score-display {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            text-align: center;
+            line-height: 1.2;
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #FF8C00;
+            min-width: 300px;
+            letter-spacing: 2px;
+        }
+        
+        .emoji-number {
+            display: inline-block;
+            margin: 0 5px;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .emoji-row {
+            display: block;
+            height: 1.5em;
+            font-size: 1em;
+            white-space: pre;
+        }
+        
+        .emoji-row-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .power-up {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .power-up.speed {
+            background: radial-gradient(circle, #00ff00, #008800);
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+        .power-up.slow {
+            background: radial-gradient(circle, #ff0000, #880000);
+            box-shadow: 0 0 10px #ff0000;
+        }
+        
+        .power-up.grow {
+            background: radial-gradient(circle, #ffff00, #888800);
+            box-shadow: 0 0 10px #ffff00;
+        }
+        
+        .power-up-indicator {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            display: none;
+            z-index: 20;
+        }
+        
+        .leaderboard {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 5rem;
-            z-index: 1000;
-            pointer-events: none;
-            animation: celebrate 1s ease-out forwards;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            z-index: 200;
+            display: none;
+            backdrop-filter: blur(10px);
+            border: 2px solid #FF8C00;
         }
         
-        @keyframes celebrate {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(-50%, -100px) scale(2); opacity: 0; }
+        .leaderboard h3 {
+            color: #FF8C00;
+            text-align: center;
+            margin-bottom: 15px;
         }
-
-        .social-tags {
-            font-size: 0.8rem;
-            color: #ccc;
-            margin-top: 10px;
+        
+        .leaderboard-list {
+            max-height: 300px;
+            overflow-y: auto;
         }
-
-        .share-preview {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            display: none;
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .share-preview img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        
+        .leaderboard-item:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.05);
         }
-
-        .fallback-message {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
+        
+        .leaderboard-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             margin-top: 15px;
+        }
+        
+        .leaderboard-btn {
+            padding: 10px 15px;
             font-size: 0.9rem;
-            color: #ccc;
-            display: none;
         }
-
-        .share-text {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            cursor: pointer;
-            border: 1px dashed #FF8C00;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            text-align: left;
-        }
-
-        .share-text:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                padding: 12px;
+        
+        @media (min-width: 768px) {
+            .container {
+                display: none !important;
             }
-            
-            h1 {
-                font-size: 1.5rem;
+            .desktop-message {
+                display: flex;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .emoji-score-display {
+                font-size: 1.6rem;
+                min-width: 280px;
+                padding: 15px;
             }
             
             .score-display {
-                font-size: 1rem;
-                gap: 20px;
+                flex-direction: column;
+                gap: 5px;
             }
             
             .controls {
-                padding: 15px;
+                flex-direction: column;
+                align-items: center;
             }
             
             button {
-                padding: 12px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .tap-to-start {
-                font-size: 1.2rem;
-                padding: 15px 30px;
-            }
-        }
-
-        /* Mobile-specific optimizations */
-        @media (max-width: 480px) {
-            .share-option {
-                padding: 12px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .share-container {
-                padding: 15px;
-            }
-            
-            .game-over {
-                padding: 15px;
-            }
-            
-            .share-text {
-                font-size: 0.8rem;
-                padding: 10px;
+                width: 90%;
             }
         }
     </style>
 </head>
 <body>
+    <div class="desktop-message">
+        <div>
+            <h2>📱 Mobile Only</h2>
+            <p>Orange Dynasty Snake is designed for mobile devices.</p>
+            <p>Please open this game on your smartphone or tablet.</p>
+        </div>
+    </div>
+
     <div class="notification" id="notification"></div>
-    
+
     <div class="user-setup" id="userSetup">
         <div class="setup-content">
             <h3>🎮 Welcome to Orange Dynasty Snake!</h3>
@@ -406,11 +463,11 @@
             <input type="text" id="playerName" placeholder="Your name" maxlength="20">
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
                 <button onclick="startGameWithName()">START PLAYING</button>
-                <button onclick="playAsGuest()" style="background: #666;">PLAY AS GUEST</button>
+                <button class="share-btn" onclick="showLeaderboard()">VIEW LEADERBOARD</button>
             </div>
         </div>
     </div>
-    
+
     <div class="container" id="gameContainer" style="display: none;">
         <div class="header">
             <h1>ORANGE DYNASTY SNAKE</h1>
@@ -419,13 +476,18 @@
                 <div>ORANGES: <span id="oranges">0</span></div>
             </div>
         </div>
-        
+
         <canvas id="gameCanvas"></canvas>
         <div class="tap-to-start" id="tapToStart">TAP TO START</div>
         
+        <div class="power-up-indicator" id="powerUpIndicator"></div>
+        
         <div class="controls">
-            <button id="connectButton" class="connect-btn">
-                <i class="fab fa-twitter"></i> CONNECT X
+            <button onclick="openXWithTags()" class="share-btn">
+                <i class="fab fa-twitter"></i> SHARE ON X
+            </button>
+            <button onclick="showLeaderboard()" class="share-btn">
+                <i class="fas fa-trophy"></i> LEADERBOARD
             </button>
         </div>
         
@@ -433,54 +495,54 @@
             ← → ↑ ↓ Swipe to control
         </div>
     </div>
-    
+
     <div class="game-over" id="gameOver">
         <h2>GAME OVER</h2>
         <div class="final-score" id="finalScore">
             Score: <span id="finalScoreValue">0</span><br>
             Oranges: <span id="finalOrangesValue">0</span>
         </div>
-        
+
         <div class="share-container">
-            <h3>🎉 Share Your Score!</h3>
-            <div class="share-preview" id="sharePreview">
-                <img id="shareImage" src="" alt="Score Preview">
-            </div>
+            <h3>🎉 Share Your Score on X!</h3>
+            
+            <div class="emoji-score-display" id="emojiScoreDisplay"></div>
             
             <div class="share-buttons">
-                <button class="share-option" onclick="nativeShare()">
-                    <i class="fas fa-share-alt"></i>
-                    Share to X (Mobile)
+                <button class="share-option" onclick="autoShareToX()">
+                    <i class="fab fa-twitter"></i>
+                    Share Score on X
                 </button>
-                
-                <button class="share-option" onclick="downloadScoreImage()">
-                    <i class="fas fa-download"></i>
-                    Save Image
-                </button>
-            </div>
-            
-            <div class="fallback-message" id="fallbackMessage">
-                <p><strong>Can't share directly?</strong></p>
-                <p>1. Save the image using the button above</p>
-                <p>2. Open X and create a new post</p>
-                <p>3. Attach the saved image</p>
-                <p>4. Copy and paste this text:</p>
-                <div class="share-text" onclick="copyShareText()">
-                    🐍 I scored <span id="shareScoreText">0</span> points in Orange Dynasty Snake! 🍊<br><br>
-                    @daveayu10 @sign @claireMa12 @ethsign @orangeDynasty<br><br>
-                    Play now: https://dynasty-snake.vercel.app/
-                </div>
             </div>
         </div>
         
         <button id="restartButton">PLAY AGAIN</button>
     </div>
 
-    <!-- Hidden canvas for image generation -->
-    <canvas id="scoreCanvas" style="display: none;"></canvas>
+    <div class="leaderboard" id="leaderboard">
+        <h3><i class="fas fa-trophy"></i> LEADERBOARD</h3>
+        <div class="leaderboard-list" id="leaderboardList">
+            <!-- Leaderboard items will be added here -->
+        </div>
+        <div class="leaderboard-buttons">
+            <button class="leaderboard-btn" onclick="closeLeaderboard()">CLOSE</button>
+            <button class="leaderboard-btn share-btn" onclick="resetLeaderboard()">RESET</button>
+        </div>
+    </div>
 
     <script>
-        // Game elements
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+      
+        if (!isMobileDevice()) {
+            document.querySelector('.desktop-message').style.display = 'flex';
+            document.querySelector('.container').style.display = 'none';
+        } else {
+            document.querySelector('.desktop-message').style.display = 'none';
+            document.querySelector('.user-setup').style.display = 'flex';
+        }
+      
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.getElementById('score');
@@ -494,80 +556,145 @@
         const gameContainer = document.getElementById('gameContainer');
         const playerNameInput = document.getElementById('playerName');
         const tapToStart = document.getElementById('tapToStart');
-        const sharePreview = document.getElementById('sharePreview');
-        const shareImage = document.getElementById('shareImage');
-        const fallbackMessage = document.getElementById('fallbackMessage');
-        const shareScoreText = document.getElementById('shareScoreText');
-        
-        // Player data
+        const emojiScoreDisplay = document.getElementById('emojiScoreDisplay');
+        const powerUpIndicator = document.getElementById('powerUpIndicator');
+        const leaderboard = document.getElementById('leaderboard');
+        const leaderboardList = document.getElementById('leaderboardList');
+            
         let playerData = {
             name: '',
             playerId: '',
-            isGuest: false,
             sessionStart: null
         };
-        
-        // Game state
+            
         let gridSize = 25;
         let tileCountX, tileCountY;
         let snake = [];
         let food = {};
+        let powerUps = [];
+        let obstacles = [];
         let dx = 0;
         let dy = 0;
         let score = 0;
         let orangesEarned = 0;
         let gameRunning = false;
         let gamePaused = true;
-        let shareImageData = null;
-        
-        // Check if Native Share API is supported
-        const canNativeShare = navigator.share && navigator.canShare;
-        
-        // Initialize canvas size
+        let gameSpeed = 120;
+        let powerUpActive = false;
+        let powerUpType = '';
+        let powerUpTimer = 0;
+            
+        // Original orange emoji numbers from your first code
+        const emojiNumbers = {
+            '0': [
+                '🍊🍊🍊',
+                '🍊　　🍊',
+                '🍊　　🍊',
+                '🍊　　🍊',
+                '🍊🍊🍊'
+            ],
+            '1': [
+                '　　🍊　　',
+                '　🍊🍊　　',
+                '　　🍊　　',
+                '　　🍊　　',
+                '🍊🍊🍊🍊'
+            ],
+            '2': [
+                '🍊🍊🍊',
+                '　　　🍊',
+                '🍊🍊🍊',
+                '🍊　　　',
+                '🍊🍊🍊'
+            ],
+            '3': [
+                '🍊🍊🍊',
+                '　　　🍊',
+                '🍊🍊🍊',
+                '　　　🍊',
+                '🍊🍊🍊'
+            ],
+            '4': [
+                '🍊　　🍊',
+                '🍊　　🍊',
+                '🍊🍊🍊',
+                '　　　🍊',
+                '　　　🍊'
+            ],
+            '5': [
+                '🍊🍊🍊',
+                '🍊　　　',
+                '🍊🍊🍊',
+                '　　　🍊',
+                '🍊🍊🍊'
+            ],
+            '6': [
+                '🍊🍊🍊',
+                '🍊　　　',
+                '🍊🍊🍊',
+                '🍊　　🍊',
+                '🍊🍊🍊'
+            ],
+            '7': [
+                '🍊🍊🍊',
+                '　　　🍊',
+                '　　　🍊',
+                '　　　🍊',
+                '　　　🍊'
+            ],
+            '8': [
+                '🍊🍊🍊',
+                '🍊　　🍊',
+                '🍊🍊🍊',
+                '🍊　　🍊',
+                '🍊🍊🍊'
+            ],
+            '9': [
+                '🍊🍊🍊',
+                '🍊　　🍊',
+                '🍊🍊🍊',
+                '　　　🍊',
+                '🍊🍊🍊'
+            ]
+        };
+
+        // Obstacle types
+        const obstacleTypes = ['👑', '🌱', '🏆'];
+            
         function resizeCanvas() {
             const header = document.querySelector('.header');
             const controls = document.querySelector('.controls');
             const headerHeight = header.offsetHeight;
             const controlsHeight = controls.offsetHeight;
-            
+                
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight - headerHeight - controlsHeight;
-            
+                
             gridSize = Math.max(20, Math.min(30, Math.floor(canvas.width / 20)));
             tileCountX = Math.floor(canvas.width / gridSize);
             tileCountY = Math.floor(canvas.height / gridSize);
-            
+                
             if (gameRunning) {
                 drawGame();
             }
         }
-        
-        // Player setup
+            
         function startGameWithName() {
             const name = playerNameInput.value.trim();
             if (name) {
                 playerData.name = name;
                 playerData.playerId = generatePlayerId();
-                playerData.isGuest = false;
                 playerData.sessionStart = new Date();
                 startGame();
             } else {
                 showNotification('Please enter your name', true);
             }
         }
-        
-        function playAsGuest() {
-            playerData.name = 'Guest_' + Math.random().toString(36).substr(2, 6);
-            playerData.playerId = generatePlayerId();
-            playerData.isGuest = true;
-            playerData.sessionStart = new Date();
-            startGame();
-        }
-        
+            
         function generatePlayerId() {
             return 'player_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
-        
+            
         function startGame() {
             userSetup.style.display = 'none';
             gameContainer.style.display = 'flex';
@@ -575,33 +702,88 @@
             initGame();
             showNotification(`Welcome ${playerData.name}! Tap screen to start`);
         }
-        
-        // Game initialization
+            
         function initGame() {
             const startX = Math.floor(tileCountX / 2);
             const startY = Math.floor(tileCountY / 2);
-            
+                
             snake = [{x: startX, y: startY}];
             generateFood();
+            powerUps = [];
+            obstacles = [];
+            generateObstacles();
             dx = 1;
             dy = 0;
             score = 0;
             orangesEarned = 0;
+            gameSpeed = 120;
+            powerUpActive = false;
+            powerUpType = '';
+            powerUpTimer = 0;
             updateDisplays();
             gameOverScreen.style.display = 'none';
             tapToStart.style.display = 'block';
-            sharePreview.style.display = 'none';
-            fallbackMessage.style.display = 'none';
+            powerUpIndicator.style.display = 'none';
             gamePaused = true;
             drawGame();
         }
-        
+
+        function generateObstacles() {
+            obstacles = [];
+            
+            // Position obstacles in different areas - DOUBLE SIZE (2x2 grid)
+            const obstaclePositions = [
+                {x: Math.floor(tileCountX * 0.8), y: Math.floor(tileCountY * 0.2), type: '👑', width: 2, height: 2}, // Top Right - Crown
+                {x: Math.floor(tileCountX * 0.5), y: Math.floor(tileCountY * 0.5), type: '🏆', width: 2, height: 2}, // Center - Trophy
+                {x: Math.floor(tileCountX * 0.2), y: Math.floor(tileCountY * 0.8), type: '🌱', width: 2, height: 2}  // Bottom Left - Seedling
+            ];
+            
+            obstaclePositions.forEach(pos => {
+                // Make sure obstacle doesn't spawn on snake
+                let validPosition = true;
+                for (let segment of snake) {
+                    for (let w = 0; w < pos.width; w++) {
+                        for (let h = 0; h < pos.height; h++) {
+                            if (segment.x === pos.x + w && segment.y === pos.y + h) {
+                                validPosition = false;
+                                break;
+                            }
+                        }
+                        if (!validPosition) break;
+                    }
+                    if (!validPosition) break;
+                }
+                
+                if (validPosition) {
+                    obstacles.push({
+                        x: pos.x,
+                        y: pos.y,
+                        type: pos.type,
+                        width: pos.width,
+                        height: pos.height
+                    });
+                }
+            });
+        }
+            
         function generateFood() {
             food = {
                 x: Math.floor(Math.random() * tileCountX),
                 y: Math.floor(Math.random() * tileCountY)
             };
-            
+                
+            // Make sure food doesn't spawn on obstacles or snake
+            for (let obstacle of obstacles) {
+                for (let w = 0; w < obstacle.width; w++) {
+                    for (let h = 0; h < obstacle.height; h++) {
+                        if (obstacle.x + w === food.x && obstacle.y + h === food.y) {
+                            generateFood();
+                            return;
+                        }
+                    }
+                }
+            }
+                
             for (let segment of snake) {
                 if (segment.x === food.x && segment.y === food.y) {
                     generateFood();
@@ -609,87 +791,228 @@
                 }
             }
         }
-        
+            
+        function generatePowerUp() {
+            if (Math.random() < 0.1 && powerUps.length < 2 && !powerUpActive) {
+                const types = ['speed', 'slow', 'grow'];
+                const type = types[Math.floor(Math.random() * types.length)];
+                    
+                const powerUp = {
+                    x: Math.floor(Math.random() * tileCountX),
+                    y: Math.floor(Math.random() * tileCountY),
+                    type: type
+                };
+                    
+                // Make sure power-up doesn't spawn on obstacles, snake, or food
+                for (let obstacle of obstacles) {
+                    for (let w = 0; w < obstacle.width; w++) {
+                        for (let h = 0; h < obstacle.height; h++) {
+                            if (obstacle.x + w === powerUp.x && obstacle.y + h === powerUp.y) {
+                                return;
+                            }
+                        }
+                    }
+                }
+                    
+                for (let segment of snake) {
+                    if (segment.x === powerUp.x && segment.y === powerUp.y) {
+                        return;
+                    }
+                }
+                    
+                if (food.x === powerUp.x && food.y === powerUp.y) {
+                    return;
+                }
+                    
+                powerUps.push(powerUp);
+            }
+        }
+            
         function updateDisplays() {
             scoreDisplay.textContent = score;
             orangesDisplay.textContent = orangesEarned;
         }
-        
-        // Drawing functions
+            
         function drawGame() {
-            // Clear canvas with solid orange background
             ctx.fillStyle = '#FF8C00';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw snake with round head
+                
+            // Draw grid pattern
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x < canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+                
+            // Draw obstacles - DOUBLE SIZE
+            for (let obstacle of obstacles) {
+                const x = obstacle.x * gridSize;
+                const y = obstacle.y * gridSize;
+                const width = obstacle.width * gridSize;
+                const height = obstacle.height * gridSize;
+                
+                // Draw 3D shadow effect
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+                ctx.fillRect(x + 4, y + 4, width, height);
+                
+                // Draw main platform
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillRect(x, y, width, height);
+                
+                // Draw border for 3D effect
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(x, y, width, height);
+                
+                // Draw highlight for 3D effect
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + width, y);
+                ctx.lineTo(x + width, y + height);
+                ctx.stroke();
+                
+                // Draw obstacle emoji with larger size and glow effect
+                ctx.font = `bold ${gridSize * 1.5}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Draw text shadow for 3D effect
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.fillText(obstacle.type, x + width/2 + 2, y + height/2 + 2);
+                
+                // Draw main emoji
+                ctx.fillStyle = getObstacleColor(obstacle.type);
+                ctx.fillText(obstacle.type, x + width/2, y + height/2);
+            }
+                
             for (let i = 0; i < snake.length; i++) {
                 const segment = snake[i];
                 const x = segment.x * gridSize + gridSize/2;
                 const y = segment.y * gridSize + gridSize/2;
                 const radius = gridSize/2 - 1;
-                
-                // Draw shadow
+                    
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
                 ctx.beginPath();
                 ctx.arc(x + 2, y + 2, radius, 0, Math.PI * 2);
                 ctx.fill();
-                
+                    
                 if (i === 0) {
-                    // Round snake head
                     ctx.fillStyle = '#CC5500';
                     ctx.beginPath();
                     ctx.arc(x, y, radius, 0, Math.PI * 2);
                     ctx.fill();
-                    
-                    // Draw eyes
+                        
                     ctx.fillStyle = 'white';
                     ctx.beginPath();
                     ctx.arc(x - radius/2, y - radius/3, radius/4, 0, Math.PI * 2);
                     ctx.arc(x + radius/2, y - radius/3, radius/4, 0, Math.PI * 2);
                     ctx.fill();
-                    
-                    // Draw pupils
+                        
                     ctx.fillStyle = 'black';
                     ctx.beginPath();
                     ctx.arc(x - radius/2, y - radius/3, radius/8, 0, Math.PI * 2);
                     ctx.arc(x + radius/2, y - radius/3, radius/8, 0, Math.PI * 2);
                     ctx.fill();
+                        
+                    // Draw mouth
+                    ctx.beginPath();
+                    ctx.arc(x, y + radius/3, radius/3, 0, Math.PI);
+                    ctx.strokeStyle = 'black';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
                 } else {
-                    // Snake body (rectangular)
                     ctx.fillStyle = '#FFA500';
                     ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
-                    
-                    // Body border
+                        
                     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
                     ctx.lineWidth = 1;
                     ctx.strokeRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
                 }
             }
-            
-            // Draw food (big orange)
+                
             drawOrange(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2);
+                
+            // Draw power-ups
+            for (let powerUp of powerUps) {
+                const x = powerUp.x * gridSize + gridSize/2;
+                const y = powerUp.y * gridSize + gridSize/2;
+                    
+                ctx.beginPath();
+                ctx.arc(x, y, gridSize/3, 0, Math.PI * 2);
+                    
+                switch (powerUp.type) {
+                    case 'speed':
+                        ctx.fillStyle = '#00ff00';
+                        break;
+                    case 'slow':
+                        ctx.fillStyle = '#ff0000';
+                        break;
+                    case 'grow':
+                        ctx.fillStyle = '#ffff00';
+                        break;
+                }
+                    
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                    
+                // Draw power-up symbol
+                ctx.fillStyle = 'white';
+                ctx.font = `${gridSize/2}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                    
+                switch (powerUp.type) {
+                    case 'speed':
+                        ctx.fillText('⚡', x, y);
+                        break;
+                    case 'slow':
+                        ctx.fillText('🐌', x, y);
+                        break;
+                    case 'grow':
+                        ctx.fillText('➕', x, y);
+                        break;
+                }
+            }
         }
-        
+
+        function getObstacleColor(type) {
+            switch(type) {
+                case '👑': return '#FFD700'; // Gold for crown
+                case '🌱': return '#32CD32'; // Lime green for seedling
+                case '🏆': return '#FFA500'; // Orange for trophy
+                default: return '#FFFFFF';
+            }
+        }
+            
         function drawOrange(x, y, radius) {
-            // Draw shadow
             ctx.beginPath();
             ctx.arc(x + 2, y + 2, radius, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             ctx.fill();
-            
-            // Orange body
+                
             ctx.beginPath();
             ctx.arc(x, y, radius, 0, Math.PI * 2);
             ctx.fillStyle = '#FF9800';
             ctx.fill();
-            
-            // Highlight
+                
             ctx.beginPath();
             ctx.arc(x - radius/2.5, y - radius/2.5, radius/3, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
             ctx.fill();
-            
-            // Stem
+                
             ctx.beginPath();
             ctx.moveTo(x, y - radius);
             ctx.lineTo(x + radius/3, y - radius - 3);
@@ -698,213 +1021,204 @@
             ctx.fillStyle = '#8BC34A';
             ctx.fill();
         }
-        
-        // Game logic
+            
         function moveSnake() {
             if (!gameRunning || gamePaused) return;
-            
+                
             const head = {x: snake[0].x + dx, y: snake[0].y + dy};
-            
-            // Wrap around screen
+                
             if (head.x < 0) head.x = tileCountX - 1;
             if (head.x >= tileCountX) head.x = 0;
             if (head.y < 0) head.y = tileCountY - 1;
             if (head.y >= tileCountY) head.y = 0;
-            
-            // Check collision with self
+                
+            // Check for obstacle collision (double size obstacles)
+            for (let obstacle of obstacles) {
+                for (let w = 0; w < obstacle.width; w++) {
+                    for (let h = 0; h < obstacle.height; h++) {
+                        if (head.x === obstacle.x + w && head.y === obstacle.y + h) {
+                            gameOver();
+                            return;
+                        }
+                    }
+                }
+            }
+                
             for (let segment of snake) {
                 if (head.x === segment.x && head.y === segment.y) {
                     gameOver();
                     return;
                 }
             }
-            
+                
             snake.unshift(head);
-            
-            // Check food collision - 1 point = 1 orange
+                
             if (head.x === food.x && head.y === food.y) {
                 score += 1;
-                orangesEarned += 1; // 1 point = 1 orange
-                
-                // Celebration for every 5 oranges
+                orangesEarned += 1;
+                    
                 if (orangesEarned % 5 === 0) {
                     showNotification(`🎉 ${orangesEarned} Oranges Collected!`);
-                    createOrangeCelebration();
                 }
-                
+                    
                 updateDisplays();
                 generateFood();
+                generatePowerUp();
             } else {
                 snake.pop();
             }
-            
+                
+            // Check for power-up collision
+            for (let i = 0; i < powerUps.length; i++) {
+                const powerUp = powerUps[i];
+                if (head.x === powerUp.x && head.y === powerUp.y) {
+                    activatePowerUp(powerUp.type);
+                    powerUps.splice(i, 1);
+                    break;
+                }
+            }
+                
+            // Update power-up timer
+            if (powerUpActive) {
+                powerUpTimer--;
+                if (powerUpTimer <= 0) {
+                    deactivatePowerUp();
+                }
+            }
+                
             drawGame();
         }
-        
-        function createOrangeCelebration() {
-            const celebration = document.createElement('div');
-            celebration.className = 'orange-celebration';
-            celebration.textContent = '🍊';
-            document.body.appendChild(celebration);
             
-            setTimeout(() => {
-                document.body.removeChild(celebration);
-            }, 1000);
+        function activatePowerUp(type) {
+            powerUpActive = true;
+            powerUpType = type;
+            powerUpTimer = 150; // 15 seconds at 120ms game speed
+                
+            switch (type) {
+                case 'speed':
+                    gameSpeed = 80;
+                    showNotification('Speed Boost! ⚡');
+                    powerUpIndicator.textContent = 'SPEED BOOST';
+                    powerUpIndicator.style.background = 'rgba(0, 255, 0, 0.5)';
+                    break;
+                case 'slow':
+                    gameSpeed = 200;
+                    showNotification('Slow Down! 🐌');
+                    powerUpIndicator.textContent = 'SLOW DOWN';
+                    powerUpIndicator.style.background = 'rgba(255, 0, 0, 0.5)';
+                    break;
+                case 'grow':
+                    snake.push({...snake[snake.length - 1]});
+                    score += 5;
+                    showNotification('Extra Growth! ➕');
+                    powerUpIndicator.textContent = 'EXTRA GROWTH';
+                    powerUpIndicator.style.background = 'rgba(255, 255, 0, 0.5)';
+                    break;
+            }
+                
+            powerUpIndicator.style.display = 'block';
+            updateDisplays();
         }
-        
+            
+        function deactivatePowerUp() {
+            powerUpActive = false;
+            powerUpType = '';
+            gameSpeed = 120;
+            powerUpIndicator.style.display = 'none';
+            showNotification('Power-up expired');
+        }
+            
         function gameOver() {
             gameRunning = false;
             gamePaused = true;
             finalScoreValue.textContent = score;
             finalOrangesValue.textContent = orangesEarned;
             gameOverScreen.style.display = 'flex';
+            generateEmojiScoreDisplay();
+            saveScoreToLeaderboard();
+            showNotification('Share your score on X!');
+        }
             
-            // Automatically generate share image
+        function generateEmojiScoreDisplay() {
+            const scoreStr = score.toString();
+            let displayHTML = '<div style="margin-bottom: 15px; font-size: 1.4rem;">MY SCORE:</div>';
+            
+            // Create container for all rows
+            displayHTML += '<div>';
+            
+            // For each row (5 rows total for each digit)
+            for (let row = 0; row < 5; row++) {
+                displayHTML += '<div class="emoji-row-container">';
+                
+                // For each digit in the score
+                for (let i = 0; i < scoreStr.length; i++) {
+                    const digit = scoreStr[i];
+                    if (emojiNumbers[digit] && emojiNumbers[digit][row]) {
+                        displayHTML += `<div class="emoji-row">${emojiNumbers[digit][row]}</div>`;
+                    }
+                }
+                
+                displayHTML += '</div>';
+            }
+            
+            displayHTML += '</div>';
+            emojiScoreDisplay.innerHTML = displayHTML;
+        }
+
+        function generateEmojiScoreForX() {
+            let emojiScore = '';
+            const scoreStr = score.toString();
+            
+            // For each row (5 rows total for each digit)
+            for (let row = 0; row < 5; row++) {
+                let rowContent = '';
+                
+                // For each digit in the score
+                for (let i = 0; i < scoreStr.length; i++) {
+                    const digit = scoreStr[i];
+                    if (emojiNumbers[digit] && emojiNumbers[digit][row]) {
+                        rowContent += emojiNumbers[digit][row];
+                    }
+                }
+                
+                emojiScore += rowContent + '\n';
+            }
+            
+            return emojiScore;
+        }
+            
+        function openXWithTags() {
+            const emojiScore = generateEmojiScoreForX();
+            const tweetText = `🐍 I scored ${score} points in Orange Dynasty Snake!\n\n${emojiScore}\n@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty\n\nPlay now: https://dynasty-snake.vercel.app/`;
+                
+            const encodedText = encodeURIComponent(tweetText);
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+                
+            const xAppUrl = `twitter://post?message=${encodedText}`;
+                
+            window.location.href = xAppUrl;
+                
             setTimeout(() => {
-                generateShareImage();
-                showNotification('Share image ready! Tap "Share to X" for mobile sharing');
+                window.open(twitterUrl, '_blank');
             }, 500);
-        }
-        
-        // Native Share API Function with proper tagging in the image ALT text
-        async function nativeShare() {
-            if (!shareImageData) {
-                showNotification('Please wait for image to generate', true);
-                return;
-            }
-            
-            try {
-                // Convert base64 to blob
-                const response = await fetch(shareImageData);
-                const blob = await response.blob();
                 
-                // Create file for sharing with proper alt text for tagging
-                const file = new File([blob], `orange-dynasty-score-${score}.png`, { 
-                    type: 'image/png' 
-                });
-                
-                // The text that will appear as the image description/comment on X
-                // This is where the tagging happens for notifications
-                const shareText = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
-
-@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
-
-Play now: https://dynasty-snake.vercel.app/`;
-                
-                // Check if we can share files
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: `Orange Dynasty Snake - Score: ${score}`,
-                        text: shareText, // This becomes the image comment/description
-                        files: [file]
-                    });
-                    showNotification('Shared successfully! Tags should work now 🎉');
-                } else {
-                    // Fallback: share without files
-                    await navigator.share({
-                        title: `Orange Dynasty Snake - Score: ${score}`,
-                        text: shareText
-                    });
-                    showNotification('Shared successfully! Tags should work now 🎉');
-                }
-            } catch (err) {
-                console.log('Share failed:', err);
-                if (err.name !== 'AbortError') {
-                    showNotification('Sharing failed. Try saving the image instead.');
-                    fallbackMessage.style.display = 'block';
-                }
-            }
+            showNotification('Sharing to X with tags! ✅');
         }
-        
-        // Generate clean share image (only score and orange - no overlap)
-        function generateShareImage() {
-            const scoreCanvas = document.getElementById('scoreCanvas');
-            const scoreCtx = scoreCanvas.getContext('2d');
             
-            // Set canvas size - optimized for mobile sharing
-            scoreCanvas.width = 800;
-            scoreCanvas.height = 500; // Increased height to prevent overlap
-            
-            // Draw background with orange gradient
-            const gradient = scoreCtx.createLinearGradient(0, 0, scoreCanvas.width, scoreCanvas.height);
-            gradient.addColorStop(0, '#FF8C00');
-            gradient.addColorStop(1, '#FFA500');
-            scoreCtx.fillStyle = gradient;
-            scoreCtx.fillRect(0, 0, scoreCanvas.width, scoreCanvas.height);
-            
-            // Draw large orange emoji in center (properly spaced)
-            scoreCtx.font = 'bold 160px Arial';
-            scoreCtx.textAlign = 'center';
-            scoreCtx.textBaseline = 'middle';
-            scoreCtx.fillText('🍊', scoreCanvas.width / 2, scoreCanvas.height / 2 - 40);
-            
-            // Draw score below the orange (properly spaced)
-            scoreCtx.fillStyle = 'white';
-            scoreCtx.font = 'bold 50px Arial';
-            scoreCtx.textBaseline = 'alphabetic';
-            scoreCtx.fillText(`SCORE: ${score}`, scoreCanvas.width / 2, scoreCanvas.height - 100);
-            
-            // NO TAGS OR LINKS IN THE IMAGE - clean design
-            
-            // Convert to image and display
-            shareImageData = scoreCanvas.toDataURL();
-            shareImage.src = shareImageData;
-            sharePreview.style.display = 'block';
-            shareScoreText.textContent = score;
-            
-            // Show fallback instructions if Native Share isn't available
-            if (!canNativeShare) {
-                fallbackMessage.style.display = 'block';
-            }
+        function autoShareToX() {
+            openXWithTags();
         }
-        
-        function downloadScoreImage() {
-            if (!shareImageData) {
-                showNotification('Please wait for image to generate', true);
-                return;
-            }
             
-            const link = document.createElement('a');
-            link.download = `orange-dynasty-score-${score}.png`;
-            link.href = shareImageData;
-            link.click();
-            
-            showNotification('Image saved! You can now share it on X');
-            fallbackMessage.style.display = 'block';
-        }
-        
-        function copyShareText() {
-            const text = `🐍 I scored ${score} points in Orange Dynasty Snake! 🍊
-
-@daveayu10 @sign @claireMa12 @ethsign @orangeDynasty
-
-Play now: https://dynasty-snake.vercel.app/`;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('Share text copied to clipboard! 📋');
-            }).catch(() => {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                showNotification('Share text copied to clipboard! 📋');
-            });
-        }
-        
-        // UI functions
         function showNotification(message, isError = false) {
             notification.textContent = message;
             notification.style.background = isError ? '#f44336' : '#4CAF50';
             notification.style.display = 'block';
-            
+                
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
         }
-        
+            
         function toggleGame() {
             if (!gameRunning) {
                 gameRunning = true;
@@ -916,31 +1230,30 @@ Play now: https://dynasty-snake.vercel.app/`;
                 tapToStart.textContent = gamePaused ? 'TAP TO RESUME' : '';
             }
         }
-        
-        // Touch controls
+            
         let touchStartX = 0;
         let touchStartY = 0;
-        
+            
         function handleTouchStart(event) {
             touchStartX = event.touches[0].clientX;
             touchStartY = event.touches[0].clientY;
-            
+                
             if (!gameRunning || gamePaused) {
                 toggleGame();
             }
-            
+                
             event.preventDefault();
         }
-        
+            
         function handleTouchMove(event) {
             if (!touchStartX || !touchStartY || !gameRunning || gamePaused) return;
-            
+                
             const touchEndX = event.touches[0].clientX;
             const touchEndY = event.touches[0].clientY;
-            
+                
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
-            
+                
             if (Math.abs(diffX) > 20 || Math.abs(diffY) > 20) {
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (diffX > 0 && dx !== 1) {
@@ -959,43 +1272,91 @@ Play now: https://dynasty-snake.vercel.app/`;
                         dy = 1;
                     }
                 }
-                
+                    
                 touchStartX = null;
                 touchStartY = null;
             }
-            
+                
             event.preventDefault();
         }
-        
-        // Event listeners
+            
+        function saveScoreToLeaderboard() {
+            const leaderboardData = JSON.parse(localStorage.getItem('orangeDynastyLeaderboard') || '[]');
+                
+            leaderboardData.push({
+                name: playerData.name,
+                score: score,
+                oranges: orangesEarned,
+                date: new Date().toLocaleDateString()
+            });
+                
+            leaderboardData.sort((a, b) => b.score - a.score);
+                
+            if (leaderboardData.length > 10) {
+                leaderboardData.splice(10);
+            }
+                
+            localStorage.setItem('orangeDynastyLeaderboard', JSON.stringify(leaderboardData));
+        }
+            
+        function showLeaderboard() {
+            const leaderboardData = JSON.parse(localStorage.getItem('orangeDynastyLeaderboard') || '[]');
+                
+            leaderboardList.innerHTML = '';
+                
+            if (leaderboardData.length === 0) {
+                leaderboardList.innerHTML = '<div style="text-align: center; padding: 20px;">No scores yet!</div>';
+            } else {
+                leaderboardData.forEach((entry, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'leaderboard-item';
+                    item.innerHTML = `
+                        <div>${index + 1}. ${entry.name}</div>
+                        <div>${entry.score} pts</div>
+                    `;
+                    leaderboardList.appendChild(item);
+                });
+            }
+                
+            leaderboard.style.display = 'block';
+        }
+            
+        function closeLeaderboard() {
+            leaderboard.style.display = 'none';
+        }
+            
+        function resetLeaderboard() {
+            if (confirm('Are you sure you want to reset the leaderboard?')) {
+                localStorage.removeItem('orangeDynastyLeaderboard');
+                showLeaderboard();
+            }
+        }
+            
         restartButton.addEventListener('click', () => {
             gameRunning = true;
             gamePaused = true;
             tapToStart.style.display = 'block';
             tapToStart.textContent = 'TAP TO START';
             gameOverScreen.style.display = 'none';
-            sharePreview.style.display = 'none';
-            fallbackMessage.style.display = 'none';
             initGame();
         });
-        
+            
         canvas.addEventListener('click', toggleGame);
-        
+            
         playerNameInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 startGameWithName();
             }
         });
-        
+            
         canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
         canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
-        
+            
         window.addEventListener('load', resizeCanvas);
         window.addEventListener('resize', resizeCanvas);
-        
-        // Game loop
-        const gameSpeed = 120;
+            
         setInterval(moveSnake, gameSpeed);
+        setInterval(generatePowerUp, 5000);
     </script>
 </body>
 </html>
